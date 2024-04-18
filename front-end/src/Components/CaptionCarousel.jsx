@@ -33,27 +33,25 @@ export default function CaptionCarousel() {
 
   const cards = [
     {
-      title: 'Design Projects 1',
-      text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+      title: `मृदु भावों के अंगूरों की...`,
+      text: `मृदु भावों के अंगूरों की आज बना लाया हाला, प्रियतम, अपने ही हाथों से आज पिलाऊँगा प्याला, पहले भोग लगा लूँ तेरा फिर प्रसाद जग पाएगा,सबसे पहले तेरा स्वागत करती मेरी मधुशाला।`,
       image:
-        'https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+        'https://thumbs.dreamstime.com/b/poetry-book-under-tree-blurs-summer-sunset-background-78316985.jpg',
     },
     {
-      title: 'Design Projects 2',
-      text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-      image:
-        'https://images.unsplash.com/photo-1438183972690-6d4658e3290e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2274&q=80',
+      title: 'ये कैसा सुर...',
+      text: `ये कैसा सुर है, ये कैसा गगन है, ये कैसी मधुशाला है। जहां तलक निगाहें दौड़ती हैं,पेय है, प्याला है।`,
+      image:'https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
     },
     {
-      title: 'Design Projects 3',
-      text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-      image:
-        'https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+      title: 'लहरों का है ये शोर कैसा...',
+      text: `लहरों का है ये शोर कैसा, आकाश छूने का हुंकार। तूफानों से जूझता सागर,है वीरता का पावन धार।`,
+      image:`https://media.istockphoto.com/id/1444101433/photo/flying-drone-over-large-lake-with-view-of-mountain-peaks.jpg?s=612x612&w=0&k=20&c=dwnQotYKTgqowjls7RV_59e2RL5iaJM-JhAgSZ8al4w=`
     },
   ]
 
   return (
-    <Box position={'relative'} height={'600px'} width={'full'} overflow={'hidden'}>
+    <Box position={'relative'} height={'550px'} width={'full'} overflow={'hidden'}>
       <link
         rel="stylesheet"
         type="text/css"
@@ -68,6 +66,7 @@ export default function CaptionCarousel() {
         aria-label="left-arrow"
         variant="ghost"
         position="absolute"
+        color='white'
         left={side}
         top={top}
         transform={'translate(0%, -50%)'}
@@ -79,6 +78,7 @@ export default function CaptionCarousel() {
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
+        color='white'
         right={side}
         top={top}
         transform={'translate(0%, -50%)'}
@@ -93,6 +93,8 @@ export default function CaptionCarousel() {
             key={index}
             height={'6xl'}
             position="relative"
+            width='100%'
+            h={'100%'}
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
@@ -110,7 +112,7 @@ export default function CaptionCarousel() {
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                   {card.title}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }} color="GrayText">
+                <Text fontSize={{ base: 'md', lg: 'lg' }} color="black">
                   {card.text}
                 </Text>
               </Stack>
