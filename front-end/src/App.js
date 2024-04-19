@@ -1,6 +1,7 @@
 import AllRoutes from './Components/AllRoutes';
 import './App.css';
 import Navbar from './Components/Navbar';
+import Footer from './PageComponent/Footer';
 
 
 
@@ -9,6 +10,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <AllRoutes/>
+      <Footer/>
     </div>
   );
 }

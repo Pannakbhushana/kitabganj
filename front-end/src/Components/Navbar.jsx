@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
@@ -30,7 +29,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} bg="rgba(255, 255, 255, 0.9)" >
+      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} bg="rgba(255, 255, 255, 0.9)" zIndex={2} >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -39,17 +38,18 @@ export default function Navbar() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-        
-          <HStack spacing={2} alignItems={'center'}>
-              <Link to='/'><Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
-              </Link>
-                <Text as='b'>KITABGANJ</Text>
-          </HStack>
+          <Link to='/'>
+            <HStack spacing={2} alignItems={'center'}>
+                <Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
+                  <Text as='b'>KITABGANJ</Text>
+            </HStack>
+          </Link>
 
           <HStack as={'nav'} spacing={10} w='40%'justifyContent={'space-between'} display={{ base: 'none', md: 'flex' }}>
-                <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
-                <Link to='/books'><Text fontSize='sm'>Books</Text></Link>
-                <Link to='/media'><Text fontSize='sm'>Media</Text></Link>
+                <Link to='/aboutme'><Text fontSize='sm'>Acquaintance</Text></Link>
+                <Link to='/books'><Text fontSize='sm'>Poems</Text></Link>
+                <Link to='/media'><Text fontSize='sm'>Blog</Text></Link>
+                <Link to='/media'><Text fontSize='sm'>Choti Dukaan</Text></Link>
           </HStack>
          
           <Flex alignItems={'center'}>
@@ -68,22 +68,17 @@ export default function Navbar() {
                   }
                 />
               </MenuButton>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
             </Menu>
           </Flex>
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
+          <Box pb={4} display={{ md: 'none' }} bg="rgba(255, 255, 255, 0.9)">
             <Stack as={'nav'} spacing={4}>
-               <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
-               <Link to='/books'><Text fontSize='sm'>Books</Text></Link>
-               <Link to='/media'><Text fontSize='sm'>Media</Text></Link>
+                <Link to='/aboutme'><Text fontSize='sm'>Acquaintance</Text></Link>
+                <Link to='/books'><Text fontSize='sm'>Poems</Text></Link>
+                <Link to='/media'><Text fontSize='sm'>Blog</Text></Link>
+                <Link to='/media'><Text fontSize='sm'>Choti Dukaan</Text></Link>
             </Stack>
           </Box>
         ) : null}
