@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} >
+      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} bg="rgba(255, 255, 255, 0.9)" >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
