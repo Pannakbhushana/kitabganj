@@ -44,7 +44,7 @@ export default function Footer() {
 
         <Link to={'https://www.instagram.com/kitabganj_?igsh=eTd4bGdrNXZkMGNw'}
                 target='_blank' 
-                style={{color:'blue',fontSize:'25px'}}><FaInstagram />
+                style={{color:'red',fontSize:'25px'}}><FaInstagram />
           </Link>
 
           <Link to={'https://www.facebook.com/kitabganj/'}
@@ -54,7 +54,7 @@ export default function Footer() {
 
           <Link to={'https://www.youtube.com/results?search_query=kitabganj'}
                 target='_blank' 
-                style={{color:'blue', fontSize:'25px'}}><FaYoutube />
+                style={{color:'red', fontSize:'25px'}}><FaYoutube />
           </Link>
         </Stack>
       </Container>
