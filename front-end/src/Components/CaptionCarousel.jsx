@@ -25,33 +25,16 @@ const settings = {
   slidesToScroll: 1,
 }
 
-export default function CaptionCarousel() {
+export default function CaptionCarousel({cards}) {
   const [slider, setSlider] = useState(null)
 
   const top = useBreakpointValue({ base: '90%', md: '50%' })
   const side = useBreakpointValue({ base: '30%', md: '40px' })
 
-  const cards = [
-    {
-      title: `मृदु भावों के अंगूरों की...`,
-      text: `मृदु भावों के अंगूरों की आज बना लाया हाला, प्रियतम, अपने ही हाथों से आज पिलाऊँगा प्याला, पहले भोग लगा लूँ तेरा फिर प्रसाद जग पाएगा,सबसे पहले तेरा स्वागत करती मेरी मधुशाला।`,
-      image:
-        'https://thumbs.dreamstime.com/b/poetry-book-under-tree-blurs-summer-sunset-background-78316985.jpg',
-    },
-    {
-      title: 'ये कैसा सुर...',
-      text: `ये कैसा सुर है, ये कैसा गगन है, ये कैसी मधुशाला है। जहां तलक निगाहें दौड़ती हैं,पेय है, प्याला है।`,
-      image:'https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
-    },
-    {
-      title: 'लहरों का है ये शोर कैसा...',
-      text: `लहरों का है ये शोर कैसा, आकाश छूने का हुंकार। तूफानों से जूझता सागर,है वीरता का पावन धार।`,
-      image:`https://media.istockphoto.com/id/1444101433/photo/flying-drone-over-large-lake-with-view-of-mountain-peaks.jpg?s=612x612&w=0&k=20&c=dwnQotYKTgqowjls7RV_59e2RL5iaJM-JhAgSZ8al4w=`
-    },
-  ]
+  
 
   return (
-    <Box position={'relative'} height={'550px'} width={'full'} overflow={'hidden'}>
+    <Box position={'relative'} height={'570px'} width={'full'} overflow={'hidden'}>
       <link
         rel="stylesheet"
         type="text/css"

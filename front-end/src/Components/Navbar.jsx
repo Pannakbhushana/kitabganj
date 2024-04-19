@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
@@ -30,7 +29,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} bg="rgba(255, 255, 255, 0.9)" >
+      <Box px={4} h={20} position='fixed' style={{ width:'100%', borderBottom:'1px solid gray' }} bg="rgba(255, 255, 255, 0.9)" zIndex={2} >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -39,12 +38,12 @@ export default function Navbar() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-        
-          <HStack spacing={2} alignItems={'center'}>
-              <Link to='/'><Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
-              </Link>
-                <Text as='b'>KITABGANJ</Text>
-          </HStack>
+          <Link to='/'>
+            <HStack spacing={2} alignItems={'center'}>
+                <Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
+                  <Text as='b'>KITABGANJ</Text>
+            </HStack>
+          </Link>
 
           <HStack as={'nav'} spacing={10} w='40%'justifyContent={'space-between'} display={{ base: 'none', md: 'flex' }}>
                 <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
