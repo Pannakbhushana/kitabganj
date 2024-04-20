@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 
-function Books() {
+function Blog() {
   return (
     <Box position={'relative'} minHeight={'600px'} width={'full'} overflow={'hidden'} paddingTop={'80px'}>
-     Books
+     Blog
     </Box>
   )
 }
 
-export default Books
+export default Blog

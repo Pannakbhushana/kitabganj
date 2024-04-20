@@ -14,7 +14,7 @@ import {Link} from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export default function ProductDetails({content}) {
-  const {title, description1, description2, image, purchesLink}=content
+  const {title, description1, description2, image, purchesLink,imageHeight,poem}=content
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -53,6 +53,11 @@ export default function ProductDetails({content}) {
                 {description2}
               </Text>
               }
+              { poem &&
+                <Text fontSize={'lg'}>
+                {poem}
+              </Text>
+              }
             </VStack>
             { purchesLink &&
               <Box>
@@ -73,7 +78,7 @@ export default function ProductDetails({content}) {
             fit={'cover'}
             align={'center'}
             w={'100%'}
-            h={{ base: '100%', sm: '400px', lg: '500px' }}
+            h={{ base: '100%', sm:`${imageHeight ? imageHeight : '400px'}`, lg: `${imageHeight ? imageHeight : '500px'}` }}
           />
         </Flex>
       </SimpleGrid>
