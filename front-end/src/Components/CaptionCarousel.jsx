@@ -92,10 +92,10 @@ export default function CaptionCarousel({cards}) {
                 position="absolute"
                 top="50%"
                 transform="translate(0, -50%)">
-                <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+                <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }} color={card.titleColor ? card.textColor : 'black'}>
                   {card.title}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }} color="black">
+                <Text fontSize={{ base: 'md', lg: 'lg' }} color={card.textColor ? card.textColor : 'black'}>
                   {card.text}
                 </Text>
               </Stack>

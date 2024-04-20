@@ -5,7 +5,6 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  VisuallyHidden,
   HStack
 } from '@chakra-ui/react'
 import { FaInstagram, FaFacebook, FaYoutube } from 'react-icons/fa'
