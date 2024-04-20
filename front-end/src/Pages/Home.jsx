@@ -15,9 +15,15 @@ const homeFeatureContent=[
   },
   productDetailsData:{
     title:'गुप्त प्रेमपत्र',
-    description1:`Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore`,
-    description2:`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet at delectus doloribus dolorum expedita hic, ipsum maxime modi nam officiisporro, quae, quisquam quos reprehenderit velit? Natus, totam.`,
-    image:`https://hindibook.com/books/pics/9788193759813.jpg`,
+    description1:`Lorem Ipsum छपाई और अक्षर योजन उद्योग का एक साधारण डमी पाठ है. Lorem Ipsum सन १५०० के बाद से 
+    अभी तक इस उद्योग का मानक डमी पाठ मन गया, जब एक अज्ञात मुद्रक ने नमूना लेकर एक नमूना किताब बनाई. यह न केवल पाँच सदियों `,
+    description2:`Lorem Ipsum छपाई और अक्षर योजन उद्योग का एक साधारण डमी पाठ है. Lorem Ipsum सन १५०० के बाद से 
+    अभी तक इस उद्योग का मानक डमी पाठ मन गया, जब एक अज्ञात मुद्रक ने नमूना लेकर एक नमूना किताब बनाई. यह न केवल पाँच सदियों 
+    से जीवित रहा बल्कि इसने इलेक्ट्रॉनिक मीडिया में छलांग लगाने के बाद भी मूलतः अपरिवर्तित रहा. यह 1960 के दशक में 
+    Letraset Lorem Ipsum अंश युक्त पत्र के रिलीज के साथ लोकप्रिय हुआ, और हाल ही में Aldus PageMaker 
+    Lorem Ipsum के संस्करणों सहित तरह डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ अधिक प्रचलित हुआ.आम धारणा के विपरीत 
+    Lorem Ipsum बस यादृच्छिक (random) पाठ नहीं है. यह 45 ई.पू. से शास्त्रीय लैटिन साहित्य के एक टुकड़े से जुड़ा है,`,
+    image:`https://images.unsplash.com/photo-1634562876572-5abe57afcceb?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGxldHRlcnxlbnwwfHwwfHx8MA%3D%3D`,
     purchesLink:`https://www.amazon.in/Fafoond-Prashant-Sagar/dp/B08KRHP3RD`,
   }
 },
@@ -33,6 +39,8 @@ const homeFeatureContent=[
 
 const carouselData = [
     {
+      titleColor:'',
+      textColor:'',
       title: `देवता मर सकते हैं...`,
       text: `क्योंकि देवता मर सकते हैं, प्रेम और पहाड़ कभी नहीं।। `,
       image:`https://c4.wallpaperflare.com/wallpaper/132/345/276/nature-shadow-wallpaper-preview.jpg`,
@@ -43,16 +51,22 @@ const carouselData = [
       image:'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/the-healing-power-of-nature-psycho-shadow.jpg',
     },
     {
+      titleColor:'#FFFFFF',
+      textColor:'#FFFFFF',
       title: 'सैर दुनिया की...',
       text: `सैर दुनिया की करके बोलो हम क्या करेंगे?`,
       image:`https://img.pikbest.com/wp/202408/nature-abstract-s-force-3d-illustration-of-a-rock-with-lush-green-background-and-realistic-tree-shadow-blending-natural-elements_9780861.jpg!w700wp`
     },
     {
+      titleColor:'',
+      textColor:'',
       title: 'मुझे नहीं था पता...',
       text: `मुझे नहीं था पता कि बादल आते कहाँ से हैं। वो घर के गमलों में सावन लगाती थी। `,
       image:`https://i.pinimg.com/originals/12/28/eb/1228ebfb3bbc33aa8622f7554bf7c08a.jpg`
     },
     {
+      titleColor:'',
+      textColor:'#FFFFFF',
       title: 'ईश्वर तुम्हें भूलने नहीं देता...',
       text: `ईश्वर तुम्हें भूलने नहीं देता-और बाज़ार तुमसे मिलने नहीं देता। `,
       image:`https://media.istockphoto.com/id/1444101433/photo/flying-drone-over-large-lake-with-view-of-mountain-peaks.jpg?s=612x612&w=0&k=20&c=dwnQotYKTgqowjls7RV_59e2RL5iaJM-JhAgSZ8al4w=`
@@ -70,9 +84,21 @@ function Home() {
         {homeFeatureContent && 
           homeFeatureContent.map((content,index)=>{
            return <Box key={index}>
-                  {content.homeFeatureData && content.homeFeatureData.title  && <HomeFeature content={content.homeFeatureData}/>}
-                  {content.productDetailsData && content.productDetailsData.title && <ProductDetails content={content.productDetailsData}/>}
-            </Box>
+           {content.homeFeatureData && 
+             (content.homeFeatureData.title ||
+             content.homeFeatureData.description ||
+             content.homeFeatureData.image) &&
+            <HomeFeature content={content.homeFeatureData}/>}
+
+           {content.productDetailsData && 
+             (
+               content.productDetailsData.title ||
+               content.productDetailsData.description1 ||
+               content.productDetailsData.description2 ||
+               content.productDetailsData.image 
+             )
+             && <ProductDetails content={content.productDetailsData}/>}
+     </Box>
           })}
     </Box>
   )
