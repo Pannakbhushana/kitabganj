@@ -11,20 +11,21 @@ import {Link} from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export default function HomeFeature({content}) {
+  const {image,tabDescription,title,description,purchesLink,imageHeight } = content;
   return (
     <Container maxW={'5xl'} py={12}>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-      {content.image && <Flex>
+      {image && <Flex>
           <Image
             rounded={'md'}
-            maxHeight='500px'
+            maxHeight={imageHeight ? imageHeight : '500px'}
             alt={'feature image'}
-            src={content.image}
+            src={image}
             objectFit={'cover'}
           />
         </Flex>}
         <Stack spacing={4}>
-          { content.tabDescription &&
+          { tabDescription &&
             <Text
             textTransform={'uppercase'}
             color={'blue.400'}
@@ -34,15 +35,15 @@ export default function HomeFeature({content}) {
             p={2}
             alignSelf={'flex-start'}
             rounded={'md'}>
-            {content.tabDescription}
+            {tabDescription}
           </Text>
           }
-          {content.title && <Heading>{content.title}</Heading>}
-          {content.description && <Text color={'gray.500'} fontSize={'lg'}>
-              {content.description}
+          {title && <Heading>{title}</Heading>}
+          {description && <Text color={'gray.500'} fontSize={'lg'}>
+              {description}
           </Text>}
         </Stack>
-          {content.purchesLink && <Link to={content.purchesLink} 
+          {purchesLink && <Link to={purchesLink} 
                 target='_blank' 
                 style={{color:'blue'}}>Buy Now <ExternalLinkIcon mx='2px' />
           </Link>}

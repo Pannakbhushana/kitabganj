@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 
-function Media() {
+function ChotiDukan() {
   return (
     <Box position={'relative'} minHeight={'600px'} width={'full'} overflow={'hidden'} paddingTop={'80px'}>
-      Media
+      ChotiDukan
     </Box>
   )
 }
 
-export default Media
+export default ChotiDukan
