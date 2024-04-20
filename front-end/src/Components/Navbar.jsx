@@ -12,8 +12,15 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
+import Styles from './customStyle.module.css'
 
+let menuData=[
+  {title:"About Me",path:'/aboutme'},
+  {title:"Poems",path:'/poems'},
+  {title:"Blog",path:'/blog'},
+  {title:"Choti Dukaan",path:'/chotidukan'},
+]
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,10 +50,13 @@ export default function Navbar() {
           </Link>
 
           <HStack as={'nav'} spacing={10} w='40%'justifyContent={'space-between'} display={{ base: 'none', md: 'flex' }}>
-                <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
-                <Link to='/poems'><Text fontSize='sm'>Poems</Text></Link>
-                <Link to='/blog'><Text fontSize='sm'>Blog</Text></Link>
-                <Link to='/chotidukan'><Text fontSize='sm'>Choti Dukaan</Text></Link>
+                {
+                  menuData.map((menu)=>{
+                    return <NavLink to={menu.path} className={({isActive})=>{
+                       return isActive ?  Styles.activeNavMenu : 'none' 
+                    }} >{menu.title}</NavLink>
+                  })
+                }
           </HStack>
          
           <Flex alignItems={'center'}>
@@ -72,10 +82,10 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }} bg="rgba(255, 255, 255, 0.9)">
             <Stack as={'nav'} spacing={4}>
-                <Link to='/aboutme'><Text fontSize='sm'>Acquaintance</Text></Link>
-                <Link to='/books'><Text fontSize='sm'>Poems</Text></Link>
-                <Link to='/media'><Text fontSize='sm'>Blog</Text></Link>
-                <Link to='/media'><Text fontSize='sm'>Choti Dukaan</Text></Link>
+                <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
+                <Link to='/poems'><Text fontSize='sm'>Poems</Text></Link>
+                <Link to='/blog'><Text fontSize='sm'>Blog</Text></Link>
+                <Link to='/chotidukan'><Text fontSize='sm'>Choti Dukaan</Text></Link>
             </Stack>
           </Box>
         ) : null}
