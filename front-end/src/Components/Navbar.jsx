@@ -51,8 +51,8 @@ export default function Navbar() {
 
           <HStack as={'nav'} spacing={10} w='40%'justifyContent={'space-between'} display={{ base: 'none', md: 'flex' }}>
                 {
-                  menuData.map((menu)=>{
-                    return <NavLink to={menu.path} className={({isActive})=>{
+                  menuData.map((menu,i)=>{
+                    return <NavLink to={menu.path} key={i} className={({isActive})=>{
                        return isActive ?  Styles.activeNavMenu : 'none' 
                     }} >{menu.title}</NavLink>
                   })
