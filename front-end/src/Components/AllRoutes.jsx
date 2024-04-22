@@ -7,6 +7,7 @@ import Poems from '../Pages/Poems';
 import Blog from '../Pages/Blog';
 import ChotiDukan from '../Pages/ChotiDukan';
 import SingleProductPage from '../Pages/SingleProductPage';
+import BlogArticle from '../PageComponent/BlogArticle';
 
 function AllRoutes() {
   return (
@@ -18,6 +19,7 @@ function AllRoutes() {
         <Route path="/chotidukan" element={<ChotiDukan/>} />
         <Route path="/poems" element={<Poems/>} />
         <Route path="/poems/:id" element={<SingleProductPage/>} />
+        <Route path="/blog/:id" element={<BlogArticle/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </>
