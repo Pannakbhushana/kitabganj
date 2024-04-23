@@ -43,7 +43,7 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <Link to='/'>
-            <HStack spacing={2} alignItems={'center'}>
+            <HStack spacing={2} alignItems={'center'} mt='5%'>
                 <Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
                   <Text as='b'>KITABGANJ</Text>
             </HStack>
@@ -71,7 +71,7 @@ export default function Navbar() {
                 border='1px solid gray'
                   size={'md'}
                   src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
                   }
                 />
               </MenuButton>
@@ -82,10 +82,10 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }} bg="rgba(255, 255, 255, 0.9)">
             <Stack as={'nav'} spacing={4}>
-                <Link to='/aboutme'><Text fontSize='sm'>About Me</Text></Link>
-                <Link to='/poems'><Text fontSize='sm'>Poems</Text></Link>
-                <Link to='/blog'><Text fontSize='sm'>Blog</Text></Link>
-                <Link to='/chotidukan'><Text fontSize='sm'>Choti Dukaan</Text></Link>
+                <Link to='/aboutme'><Text fontSize='sm' onClick={onClose}>About Me</Text></Link>
+                <Link to='/poems'><Text fontSize='sm'onClick={onClose} >Poems</Text></Link>
+                <Link to='/blog'><Text fontSize='sm' onClick={onClose}>Blog</Text></Link>
+                <Link to='/chotidukan'><Text fontSize='sm' onClick={onClose}>Choti Dukaan</Text></Link>
             </Stack>
           </Box>
         ) : null}
