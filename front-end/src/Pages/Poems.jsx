@@ -76,7 +76,7 @@ function Poems() {
         {poemContent && 
           poemContent.map((content,index)=>{
            return <Box key={index}>
-                  <Link to={`/poems/${index}`}>
+                  <Link to={`/details/${index}`}>
                     <Box className={styles.poemCard}>
                         {content.homeFeatureData && 
                             (content.homeFeatureData.title ||
@@ -86,7 +86,7 @@ function Poems() {
                     </Box>
                   </Link>
 
-                  <Link to={`/poems/${index}`}>
+                  <Link to={`/details/${index}`}>
                     <Box className={styles.poemCard}>
                         {content.productDetailsData && 
                             (content.productDetailsData.title ||
