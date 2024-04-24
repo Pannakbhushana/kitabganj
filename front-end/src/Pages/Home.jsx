@@ -39,7 +39,6 @@ const homeFeatureContent=[
 
 const carouselData = [
     {
-      titleColor:'',
       textColor:'',
       title: `देवता मर सकते हैं...`,
       text: `क्योंकि देवता मर सकते हैं, प्रेम और पहाड़ कभी नहीं।। `,
