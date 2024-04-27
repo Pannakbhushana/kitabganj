@@ -53,10 +53,10 @@ function Blog() {
   const [blogData, setBlogData]=useState([]);
 
   useEffect(()=>{
-    getBloData()
+    getBlogData()
   })
 
-  const getBloData=()=>{
+  const getBlogData=()=>{
     fetch("http://localhost:8080/blog")
       .then((res)=>res.json())
       .then((res)=>setBlogData(res)) 

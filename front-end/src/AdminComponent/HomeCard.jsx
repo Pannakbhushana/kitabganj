@@ -6,10 +6,43 @@ import {
     Text,
     Stack,
     Image,
+    Tooltip,
   } from '@chakra-ui/react'
+  import { DeleteIcon } from '@chakra-ui/icons'
+import { useEffect, useState } from 'react';
   
   export default function HomeCard({content}) {
       const {title,description,image,tabDescription,external}=content;
+      const [token, setToken]=useState("");
+
+      useEffect(()=>{
+        getToken()
+      },[])
+      
+      const deleteHomeFeatureContent=()=>{
+        if(!token){
+          alert("Access denied !")
+        }
+        else{
+          fetch(`http://localhost:8080/homefeature/delete/${content._id}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token,
+            },
+          })
+          .then((res)=>res.json())
+            .then((res)=>console.log(res)) 
+            .catch((err)=>console.log(err))
+        }
+      }
+
+      const getToken=()=>{
+        let authToken=localStorage.getItem("AdminToken");
+        setToken(authToken);
+      }
+
+
     return (
       <Center py={12}>
         <Box
@@ -120,6 +153,9 @@ import {
                   </Text>
               </Box>
             </Stack>
+                  <Tooltip label='Delete'>
+                    <Text fontSize={'20px'} color={'red'} onClick={deleteHomeFeatureContent} ><DeleteIcon/></Text>
+                  </Tooltip>
             
           </Stack>
         </Box>

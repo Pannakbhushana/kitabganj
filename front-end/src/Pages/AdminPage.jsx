@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box,Grid,GridItem } from '@chakra-ui/react'
-import AdminHome from '../AdminComponent/AdminHome';
 import HomeFormComponent from '../AdminComponent/HomeFormComponent';
-// import HomeCard from '../AdminComponent/HomeCard';
+
 
 
 function AdminPage() {
