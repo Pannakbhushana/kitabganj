@@ -23,7 +23,6 @@ poemRouter.use(authorization)
 poemRouter.post("/add",async(req,res)=>{
     try {
         const payload=req.body;
-        console.log(payload)
         const post=PoemModel(payload);
         await post.save()
         res.status(200).send({msg:"post added successfully"})
