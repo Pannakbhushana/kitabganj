@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export default function HomeFeature({content}) {
-  const {image,tabDescription,title,description,purchesLink,imageHeight } = content;
+  const {image,tabDescription,title,description,external,imageHeight } = content;
   return (
     <Container maxW={'5xl'} py={12}>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
@@ -43,7 +43,7 @@ export default function HomeFeature({content}) {
               {description}
           </Text>}
         </Stack>
-          {purchesLink && <Link to={purchesLink} 
+          {external && <Link to={external} 
                 target='_blank' 
                 style={{color:'blue'}}>Buy Now <ExternalLinkIcon mx='2px' />
           </Link>}
