@@ -5,6 +5,8 @@ const {authRouter}=require("./routes/auth.routes");
 const {homeFeatureRouter}=require("./routes/homefeature.routes")
 const {aboutMeRouter}=require("./routes/aboutme.routes")
 const {poemRouter}=require("./routes/poem.routes")
+const {blogRouter}=require("./routes/blog.routes")
+const {chotiDukaanRouter}=require("./routes/chotidukaan.routes")
 const cors=require("cors")
 require("dotenv").config()
 
@@ -16,6 +18,8 @@ app.use("/carousel",carouselRouter)
 app.use("/homefeature",homeFeatureRouter)
 app.use("/aboutme",aboutMeRouter)
 app.use("/poem",poemRouter)
+app.use("/blog",blogRouter)
+app.use("/chotidukaan",chotiDukaanRouter)
 
 app.listen(process.env.port,async()=>{
     try {
