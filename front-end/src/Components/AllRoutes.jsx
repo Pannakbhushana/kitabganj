@@ -7,6 +7,8 @@ import Poems from '../Pages/Poems';
 import Blog from '../Pages/Blog';
 import ChotiDukan from '../Pages/ChotiDukan';
 import SingleProductPage from '../Pages/SingleProductPage';
+import AdminPage from '../Pages/AdminPage';
+import Login from '../AdminComponent/Login';
 // import BlogArticle from '../PageComponent/BlogArticle';
 
 function AllRoutes() {
@@ -18,6 +20,8 @@ function AllRoutes() {
         <Route path="/aboutme" element={<AboutMe/>} />
         <Route path="/chotidukan" element={<ChotiDukan/>} />
         <Route path="/poems" element={<Poems/>} />
+        <Route path="/kitabganjadmin" element={<AdminPage/>} />
+        <Route path="/adminlogin" element={<Login/>} />
         <Route path="/details/:id" element={<SingleProductPage/>} />
         {/* <Route path="/blog/:id" element={<BlogArticle/>} /> */}
         <Route path="*" element={<PageNotFound/>} />
