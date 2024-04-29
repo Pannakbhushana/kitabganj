@@ -5,7 +5,7 @@ const {authorization}=require("../middleware/authorization.middleware")
 
 
 homeFeatureRouter.get("/", async (req, res) => {
-    const { page = 1, limit = 5, ...filters } = req.query; 
+    const { page = 1, limit = 10, ...filters } = req.query; 
     const skip = (page - 1) * limit;
     try {
         const query = HomeFeatureModel.find(filters)

@@ -3,11 +3,10 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import { useContext, useEffect, useState } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext";
 
-  export default function HomeCard({content}) {
-      const {title,description,image,tabDescription,external}=content;
+  export default function HomeCard({content,endPoint}) {
+      const {title,description,image,tabDescription,external,titleColor,textColor,poem,heading,imageHeight}=content;
       const { forceRender, renderState } = useContext(RenderContext);
       const [token, setToken]=useState("");
-
       const toast = useToast()
 
       useEffect(()=>{
@@ -24,7 +23,7 @@ import {RenderContext} from "../ContextApi/RenderContext";
       }
 
       const deleteHomeFeatureContent=()=>{
-          fetch(`http://localhost:8080/homefeature/delete/${content._id}`, {
+          fetch(`http://localhost:8080/${endPoint}/delete/${content._id}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -46,7 +45,7 @@ import {RenderContext} from "../ContextApi/RenderContext";
       }
 
       const customAlert=(status, msg)=>{
-        if(status=='success'){
+        if(status==='success'){
           toast({
             position: 'top',
             render: () => (
@@ -56,7 +55,7 @@ import {RenderContext} from "../ContextApi/RenderContext";
             ),
           })
         }
-        else if(status=='fail'){
+        else if(status==='fail'){
           toast({
             position: 'top',
             render: () => (
@@ -112,20 +111,26 @@ import {RenderContext} from "../ContextApi/RenderContext";
                 filter: 'blur(20px)',
               },
             }}>
-            <Image
-              rounded={'lg'}
-              height={200}
-              width={282}
-              objectFit={'cover'}
-              src={image}
-              alt="#"
-            />
+            {
+              image &&
+                <Image
+                rounded={'lg'}
+                height={200}
+                width={282}
+                objectFit={'cover'}
+                src={image}
+                alt="#"
+              />
+            }
           </Box>
           <Stack pt={10} align={'center'}>
-            <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-              <Box display={'flex'} justifyContent={'center'}>
+            <Heading fontSize={'md'} fontFamily={'body'} fontWeight={500}>
+              {
+                title &&
+                <Box display={'flex'} justifyContent={'center'}>
                       <Text
                       overflow='hidden'
+                      color={'gray.500'}
                       style={{ 
                           display: '-webkit-box', 
                           WebkitBoxOrient: 'vertical', 
@@ -136,9 +141,11 @@ import {RenderContext} from "../ContextApi/RenderContext";
                       <span style={{color:'gray', fontWeight:'bold'}}>Title -</span> {title}
                       </Text>
                   </Box>
+              }
             </Heading>
             <Stack direction={'row'} align={'center'}>
-            <Box display={'flex'} justifyContent={'center'}>
+              {heading &&
+                <Box display={'flex'} justifyContent={'center'}>
                   <Text
                   color={'gray.500'}
                   overflow='hidden'
@@ -147,15 +154,79 @@ import {RenderContext} from "../ContextApi/RenderContext";
                       WebkitBoxOrient: 'vertical', 
                       WebkitLineClamp: 2, 
                       overflow: 'hidden'
-                       }}
+                      }}
                       >
-                    <span style={{color:'gray',fontWeight:'bold'}}>Description -</span> {description}
+                    <span style={{color:'gray',fontWeight:'bold'}}>Heading -</span> {heading}
                   </Text>
-              </Box>
+                </Box>
+              }
+            
             </Stack>
 
             <Stack direction={'row'} align={'center'}>
+              {imageHeight &&
                 <Box display={'flex'} justifyContent={'center'}>
+                  <Text
+                  color={'gray.500'}
+                  overflow='hidden'
+                  style={{ 
+                      display: '-webkit-box', 
+                      WebkitBoxOrient: 'vertical', 
+                      WebkitLineClamp: 2, 
+                      overflow: 'hidden'
+                      }}
+                      >
+                    <span style={{color:'gray',fontWeight:'bold'}}>Image height -</span> {imageHeight}
+                  </Text>
+                </Box>
+              }
+            
+            </Stack>
+
+            <Stack direction={'row'} align={'center'}>
+              {description &&
+                <Box display={'flex'} justifyContent={'center'}>
+                  <Text
+                  color={'gray.500'}
+                  overflow='hidden'
+                  style={{ 
+                      display: '-webkit-box', 
+                      WebkitBoxOrient: 'vertical', 
+                      WebkitLineClamp: 2, 
+                      overflow: 'hidden'
+                      }}
+                      >
+                    <span style={{color:'gray',fontWeight:'bold'}}>Description -</span> {description}
+                  </Text>
+                </Box>
+              }
+            
+            </Stack>
+
+            <Stack direction={'row'} align={'center'}>
+              {poem &&
+                <Box display={'flex'} justifyContent={'center'}>
+                  <Text
+                  color={'gray.500'}
+                  overflow='hidden'
+                  style={{ 
+                      display: '-webkit-box', 
+                      WebkitBoxOrient: 'vertical', 
+                      WebkitLineClamp: 2, 
+                      overflow: 'hidden'
+                      }}
+                      >
+                    <span style={{color:'gray',fontWeight:'bold'}}>Poem -</span> {poem}
+                  </Text>
+                </Box>
+              }
+            
+            </Stack>
+
+            <Stack direction={'row'} align={'center'}>
+                {
+                  external &&
+                  <Box display={'flex'} justifyContent={'center'}>
            
                   <Text
                   color='blue'
@@ -170,10 +241,13 @@ import {RenderContext} from "../ContextApi/RenderContext";
                      <span style={{color:'gray',fontWeight:'bold'}}>Purches link -</span> {external}
                   </Text>
               </Box>
+                }
             </Stack>
 
             <Stack direction={'row'} align={'center'}>
-                <Box display={'flex'} justifyContent={'center'}>
+                {
+                  tabDescription &&
+                  <Box display={'flex'} justifyContent={'center'}>
            
                   <Text
                   color={'gray.500'}
@@ -188,6 +262,35 @@ import {RenderContext} from "../ContextApi/RenderContext";
                      <span style={{color:'gray',fontWeight:'bold'}}>Tab Title </span>- {tabDescription}
                   </Text>
               </Box>
+                }
+            </Stack>
+
+            <Stack direction={'row'} align={'center'}>
+              {titleColor &&
+                <Box display={'flex'} justifyContent={'center'}>
+                  <Text
+                    color={'gray.500'}
+                    overflow='hidden'
+                      >
+                    <span style={{fontWeight:'bold'}} >Title Color -{titleColor}</span> 
+                  </Text>
+                </Box>
+              }
+            
+            </Stack>
+
+            <Stack direction={'row'} align={'center'}>
+              {textColor &&
+                <Box display={'flex'} justifyContent={'center'}>
+                  <Text
+                  color={'gray.500'}
+                  overflow='hidden'
+                      >
+                    <span style={{fontWeight:'bold'}}>Text Color -</span> {textColor}
+                  </Text>
+                </Box>
+              }
+            
             </Stack>
                   <Tooltip label='Delete'>
                     <Text fontSize={'20px'} color={'red'} onClick={handleDelete} ><DeleteIcon/></Text>

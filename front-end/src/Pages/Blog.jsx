@@ -54,7 +54,7 @@ function Blog() {
 
   useEffect(()=>{
     getBlogData()
-  })
+  },[])
 
   const getBlogData=()=>{
     fetch("http://localhost:8080/blog")

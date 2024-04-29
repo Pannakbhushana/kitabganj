@@ -10,7 +10,9 @@ import SingleProductPage from '../Pages/SingleProductPage';
 import AdminPage from '../Pages/AdminPage';
 import Login from '../AdminComponent/Login';
 import AdminAboutPage from '../AdminComponent/AdminAboutPage';
-// import BlogArticle from '../PageComponent/BlogArticle';
+import AdminCarousel from '../AdminComponent/AdminCarousel';
+import AdminPoem from '../AdminComponent/AdminPoem';
+import AdminBlog from '../AdminComponent/AdminBlog';
 
 function AllRoutes() {
   return (
@@ -24,8 +26,10 @@ function AllRoutes() {
         <Route path="/kitabganjadmin" element={<AdminPage/>} />
         <Route path="/adminlogin" element={<Login/>} />
         <Route path="/adminaboutme" element={<AdminAboutPage/>} />
+        <Route path="/admincarousel" element={<AdminCarousel/>} />
+        <Route path="/adminpoem" element={<AdminPoem/>} />
+        <Route path="/adminblog" element={<AdminBlog/>} />
         <Route path="/details/:id" element={<SingleProductPage/>} />
-        {/* <Route path="/blog/:id" element={<BlogArticle/>} /> */}
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </>

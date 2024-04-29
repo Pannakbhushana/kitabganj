@@ -16,10 +16,12 @@ function Home() {
   const getCarouselData=()=>{
     fetch("http://localhost:8080/carousel")
       .then((res)=>res.json())
-      .then((res)=>setCarouselData(res)) 
+      .then((res)=>{
+        setCarouselData(res)
+      }) 
       .catch((err)=>console.log(err))
   }
-
+console.log("hello from home carousel--",carouselData)
   const getHomeFeatureContent=(page)=>{
     fetch(`http://localhost:8080/homefeature?page=${page}&&limit=5`)
       .then((res)=>res.json())

@@ -5,12 +5,16 @@ const {authorization}=require("../middleware/authorization.middleware")
 
 
 blogRouter.get("/",async(req,res)=>{
-    const query=req.query;
+    const { page = 1, limit = 100, ...filters } = req.query; 
+    const skip = (page - 1) * limit;
     try {
-        const post= await BlogModel.find(query);
-        res.status(200).send(post)
+        const query = BlogModel.find(filters)
+            .skip(skip)
+            .limit(parseInt(limit));
+        const posts = await query.exec();
+        res.status(200).send(posts);
     } catch (error) {
-        res.status(400).send({msg:error.message})
+        res.status(400).send({ msg: error.message });
     }
 })
 

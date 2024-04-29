@@ -88,7 +88,7 @@ export default function HomeFormComponent() {
   }
 
 const customAlert=(status, msg)=>{
-  if(status=='success'){
+  if(status==='success'){
     toast({
       position: 'top',
       render: () => (
@@ -98,7 +98,7 @@ const customAlert=(status, msg)=>{
       ),
     })
   }
-  else if(status=='fail'){
+  else if(status==='fail'){
     toast({
       position: 'top',
       render: () => (
@@ -119,7 +119,7 @@ const customAlert=(status, msg)=>{
     })
   }
 }
-console.log(renderState)
+
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
@@ -152,7 +152,7 @@ console.log(renderState)
         m="10px auto"
         as="form">
           
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">Add Home Features</Heading>
+      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">Customise Home Page</Heading>
 
       <Flex>
         <FormControl mr="5%">
@@ -213,7 +213,7 @@ console.log(renderState)
             <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
             {homeFeatureContent.map((product,i)=>{
                 return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                          <GridItem ><HomeCard content={product}  />
+                          <GridItem ><HomeCard content={product} endPoint={'homefeature'}  />
                         </GridItem></div>
             })}
             </Grid>

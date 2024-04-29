@@ -5,7 +5,6 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
   Button,
@@ -62,7 +61,7 @@ export default function Login() {
   }
 
   const customAlert=(status, msg)=>{
-    if(status=='success'){
+    if(status==='success'){
       toast({
         position: 'top',
         render: () => (

@@ -34,7 +34,10 @@ function SideBar() {
             
             <DrawerBody>
               <Box display={'flex'} justifyContent={'center'}  mt={'5%'}><Text color='blue'><Link to='/kitabganjadmin' >Home</Link></Text></Box>
+              <Box display={'flex'} justifyContent={'center'}  mt={'5%'}><Text color='blue'><Link to='/admincarousel' >Sliding Image</Link></Text></Box>
               <Box display={'flex'} justifyContent={'center'} mt={'5%'}><Text  color='blue'><Link to='/adminaboutme' >About Me</Link></Text></Box>
+              <Box display={'flex'} justifyContent={'center'} mt={'5%'}><Text  color='blue'><Link to='/adminpoem' >Poem</Link></Text></Box>
+              <Box display={'flex'} justifyContent={'center'} mt={'5%'}><Text  color='blue'><Link to='/adminblog' >Blog</Link></Text></Box>
               <Box display={'flex'} justifyContent={'center'} mt={'5%'}><Text  color='blue'><Link to='/adminlogin' >Log In</Link></Text></Box>
               
             </DrawerBody>

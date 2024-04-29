@@ -21,9 +21,9 @@ import {RenderContext} from "../ContextApi/RenderContext"
 
 
 
-export default function AdminAboutPage() {
-  let initState={title:"",description:"",image:""}
-  const [aboutMeContent, setAboutMeContent]=useState([]);
+export default function AdminBlog() {
+  let initState={title:"",description:"",image:"",heading:""}
+  const [blogContent, setPoemContent]=useState([]);
   const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
   const [token, setToken]=useState("");
@@ -36,7 +36,7 @@ export default function AdminAboutPage() {
   }
 
   useEffect(()=>{
-    getAboutMeContent(page) 
+    getBlogContent(page) 
       getToken()
   },[page,renderState])
 
@@ -46,18 +46,18 @@ export default function AdminAboutPage() {
     setToken(authToken);
   }
 
-  const getAboutMeContent=(page)=>{
-    fetch(`http://localhost:8080/aboutme?page=${page}&&limit=9`)
+  const getBlogContent=(page)=>{
+    fetch(`http://localhost:8080/blog?page=${page}&&limit=9`)
       .then((res)=>res.json())
-      .then((res)=>setAboutMeContent(res)) 
+      .then((res)=>setPoemContent(res)) 
       .catch((err)=>{
-        customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
         console.log(err)
       })
   }
 
-  const addAboutMeContent=(postData)=>{
-    fetch("http://localhost:8080/aboutme/add", {
+  const addBlogContent=(postData)=>{
+    fetch("http://localhost:8080/blog/add", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,14 +70,11 @@ export default function AdminAboutPage() {
         forceRender()
         customAlert("success","Post added successfully")
       }) 
-      .catch((err)=>{
-        customAlert("fail","Something went wrong !")
-        console.log(err)
-      })
+      .catch((err)=>customAlert("fail","Something went wrong !"))
   }
 
-  const updateAboutMeContent=(postData,id)=>{
-    fetch(`http://localhost:8080/aboutme/update/${id}`, {
+  const updateBlogContent=(postData,id)=>{
+    fetch(`http://localhost:8080/blog/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -128,10 +125,10 @@ const customAlert=(status, msg)=>{
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
-        {token && updateAboutMeContent(formData,formData._id)}
+        {token && updateBlogContent(formData,formData._id)}
       }
       else{
-        {token && addAboutMeContent(formData)}
+        {token && addBlogContent(formData)}
       }
       setFormData(initState)
     }
@@ -157,7 +154,7 @@ const customAlert=(status, msg)=>{
         m="10px auto"
         as="form">
           
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">Customise Sliding Image About Me</Heading>
+      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%"> Customise Blog Page </Heading>
 
       <Flex>
         <FormControl>
@@ -175,8 +172,13 @@ const customAlert=(status, msg)=>{
       </Flex>
 
       <FormControl mt="2%">
-        <FormLabel htmlFor="email" fontWeight={'normal'}>Description</FormLabel>
-        <Textarea placeholder='Description' onChange={handleChange} name='description' value={formData.description} />
+        <FormLabel fontWeight={'normal'}>Description</FormLabel>
+        <Input placeholder='description' onChange={handleChange} name='description' value={formData.description} />
+      </FormControl>
+
+      <FormControl mt="2%">
+        <FormLabel fontWeight={'normal'}>Heading</FormLabel>
+        <Textarea placeholder='heading' onChange={handleChange} name='heading' value={formData.heading} />
       </FormControl>
 
         <ButtonGroup mt="5%" w="100%">
@@ -206,9 +208,15 @@ const customAlert=(status, msg)=>{
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
             <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
-            {aboutMeContent.length && aboutMeContent.map((product,i)=>{
+            {blogContent.length && blogContent.map((product,i)=>{
                 return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                          <GridItem ><HomeCard content={product} endPoint={'aboutme'} />
+                          <GridItem ><HomeCard content={{
+                                                         _id:product._id,
+                                                         title:product.title,
+                                                         description:product.description,
+                                                         image:product.image,
+                                                         heading:product.heading
+                                                        }} endPoint={'blog'} />
                         </GridItem></div>
             })}
             </Grid>
@@ -218,7 +226,7 @@ const customAlert=(status, msg)=>{
                 <Box display='flex' justifyContent='center'>
                     <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
                     <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
-                    <Button colorScheme='teal' variant='outline' isDisabled={aboutMeContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={blogContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
                 </Box>
                 <br />
                 <br />

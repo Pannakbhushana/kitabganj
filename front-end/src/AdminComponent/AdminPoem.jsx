@@ -21,9 +21,9 @@ import {RenderContext} from "../ContextApi/RenderContext"
 
 
 
-export default function AdminAboutPage() {
-  let initState={title:"",description:"",image:""}
-  const [aboutMeContent, setAboutMeContent]=useState([]);
+export default function AdminPoem() {
+  let initState={title:"",description:"",image:"",poem:"",imageHeight:""}
+  const [poemContent, setPoemContent]=useState([]);
   const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
   const [token, setToken]=useState("");
@@ -36,7 +36,7 @@ export default function AdminAboutPage() {
   }
 
   useEffect(()=>{
-    getAboutMeContent(page) 
+    getPoemContent(page) 
       getToken()
   },[page,renderState])
 
@@ -46,18 +46,18 @@ export default function AdminAboutPage() {
     setToken(authToken);
   }
 
-  const getAboutMeContent=(page)=>{
-    fetch(`http://localhost:8080/aboutme?page=${page}&&limit=9`)
+  const getPoemContent=(page)=>{
+    fetch(`http://localhost:8080/poem?page=${page}&&limit=9`)
       .then((res)=>res.json())
-      .then((res)=>setAboutMeContent(res)) 
+      .then((res)=>setPoemContent(res)) 
       .catch((err)=>{
-        customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
         console.log(err)
       })
   }
 
-  const addAboutMeContent=(postData)=>{
-    fetch("http://localhost:8080/aboutme/add", {
+  const addPoemContent=(postData)=>{
+    fetch("http://localhost:8080/poem/add", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,14 +70,11 @@ export default function AdminAboutPage() {
         forceRender()
         customAlert("success","Post added successfully")
       }) 
-      .catch((err)=>{
-        customAlert("fail","Something went wrong !")
-        console.log(err)
-      })
+      .catch((err)=>customAlert("fail","Something went wrong !"))
   }
 
-  const updateAboutMeContent=(postData,id)=>{
-    fetch(`http://localhost:8080/aboutme/update/${id}`, {
+  const updatePoemContent=(postData,id)=>{
+    fetch(`http://localhost:8080/poem/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -128,10 +125,10 @@ const customAlert=(status, msg)=>{
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
-        {token && updateAboutMeContent(formData,formData._id)}
+        {token && updatePoemContent(formData,formData._id)}
       }
       else{
-        {token && addAboutMeContent(formData)}
+        {token && addPoemContent(formData)}
       }
       setFormData(initState)
     }
@@ -157,26 +154,37 @@ const customAlert=(status, msg)=>{
         m="10px auto"
         as="form">
           
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">Customise Sliding Image About Me</Heading>
+      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%"> Customise Poem Page </Heading>
 
       <Flex>
         <FormControl>
-          <FormLabel htmlFor="last-name" fontWeight={'normal'}>Title</FormLabel>
-          <Input id="last-name" placeholder="Title" onChange={handleChange} name='title' value={formData.title} />
+          <FormLabel  fontWeight={'normal'}>Title</FormLabel>
+          <Input  placeholder="Title" onChange={handleChange} name='title' value={formData.title} />
         </FormControl>
       </Flex>
 
       <Flex>
         <FormControl>
-          <FormLabel htmlFor="last-name" fontWeight={'normal'} >Image Url</FormLabel>
-          <Input id="last-name" placeholder="Image url" onChange={handleChange} name='image' value={formData.image} />
+          <FormLabel  fontWeight={'normal'} >Image Url</FormLabel>
+          <Input  placeholder="Image url" onChange={handleChange} name='image' value={formData.image} />
         </FormControl>
-        
+      </Flex>
+
+      <Flex>
+        <FormControl>
+          <FormLabel  fontWeight={'normal'} >Image Height</FormLabel>
+          <Input  placeholder="eg: 200px" onChange={handleChange} name='imageHeight' value={formData.imageHeight} />
+        </FormControl>
       </Flex>
 
       <FormControl mt="2%">
-        <FormLabel htmlFor="email" fontWeight={'normal'}>Description</FormLabel>
-        <Textarea placeholder='Description' onChange={handleChange} name='description' value={formData.description} />
+        <FormLabel fontWeight={'normal'}>Description</FormLabel>
+        <Input placeholder='description' onChange={handleChange} name='description' value={formData.description} />
+      </FormControl>
+
+      <FormControl mt="2%">
+        <FormLabel fontWeight={'normal'}>Poem</FormLabel>
+        <Textarea placeholder='Poem' onChange={handleChange} name='poem' value={formData.poem} />
       </FormControl>
 
         <ButtonGroup mt="5%" w="100%">
@@ -206,9 +214,16 @@ const customAlert=(status, msg)=>{
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
             <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
-            {aboutMeContent.length && aboutMeContent.map((product,i)=>{
+            {poemContent.length && poemContent.map((product,i)=>{
                 return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                          <GridItem ><HomeCard content={product} endPoint={'aboutme'} />
+                          <GridItem ><HomeCard content={{
+                                                         _id:product._id,
+                                                         title:product.title,
+                                                         description:product.description,
+                                                         image:product.image,
+                                                         imageHeight:product.imageHeight,
+                                                         poem:product.poem
+                                                        }} endPoint={'poem'} />
                         </GridItem></div>
             })}
             </Grid>
@@ -218,7 +233,7 @@ const customAlert=(status, msg)=>{
                 <Box display='flex' justifyContent='center'>
                     <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
                     <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
-                    <Button colorScheme='teal' variant='outline' isDisabled={aboutMeContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={poemContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
                 </Box>
                 <br />
                 <br />

@@ -13,7 +13,7 @@ function Poems() {
   },[page])
 
   const getPoemData=(page)=>{
-    fetch(`http://localhost:8080/poem?page=${page}&&limit=3`)
+    fetch(`http://localhost:8080/poem?page=${page}&&limit=10`)
       .then((res)=>res.json())
       .then((res)=>setPoemContent(res)) 
       .catch((err)=>console.log(err))
@@ -44,7 +44,7 @@ function Poems() {
                 <Box display='flex' justifyContent='center'>
                     <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
                     <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
-                    <Button colorScheme='teal' variant='outline' isDisabled={poemContent.length<3} onClick={()=>{setPage(page+1)}}>Next</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={poemContent.length<10} onClick={()=>{setPage(page+1)}}>Next</Button>
                 </Box>
                 <br />
                 <br />
