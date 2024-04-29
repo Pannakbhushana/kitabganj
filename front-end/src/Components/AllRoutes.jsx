@@ -9,6 +9,7 @@ import ChotiDukan from '../Pages/ChotiDukan';
 import SingleProductPage from '../Pages/SingleProductPage';
 import AdminPage from '../Pages/AdminPage';
 import Login from '../AdminComponent/Login';
+import AdminAboutPage from '../AdminComponent/AdminAboutPage';
 // import BlogArticle from '../PageComponent/BlogArticle';
 
 function AllRoutes() {
@@ -22,6 +23,7 @@ function AllRoutes() {
         <Route path="/poems" element={<Poems/>} />
         <Route path="/kitabganjadmin" element={<AdminPage/>} />
         <Route path="/adminlogin" element={<Login/>} />
+        <Route path="/adminaboutme" element={<AdminAboutPage/>} />
         <Route path="/details/:id" element={<SingleProductPage/>} />
         {/* <Route path="/blog/:id" element={<BlogArticle/>} /> */}
         <Route path="*" element={<PageNotFound/>} />

@@ -12,7 +12,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
+  useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -22,6 +22,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [formState, setFormState]=useState({email:"",password:""})
   const navigate=useNavigate();
+  const toast = useToast()
 
   const handleChange=(e)=>{
     setFormState({...formState, [e.target.name]:e.target.value})
@@ -33,7 +34,7 @@ export default function Login() {
         setFormState({email:"",password:""});
     }
     else{
-        alert("Email or Password can't be empty !")
+      customAlert("fail","Email or Password can't be empty !")
     }
   }
 
@@ -47,13 +48,40 @@ export default function Login() {
       })
       .then((res)=>res.json())
       .then((res)=>{
-        localStorage.setItem("AdminToken",res.token);
         if(res.token){
+            localStorage.setItem("AdminToken",res.token);
+            customAlert("success","Log in successful")
             navigate("/kitabganjadmin")
+        }
+        else{
+          customAlert("fail","Wrong credentials !")
         }
 
       }) 
-      .catch((err)=>console.log(err))
+      .catch((err)=>customAlert("fail","Something went wrong !"))
+  }
+
+  const customAlert=(status, msg)=>{
+    if(status=='success'){
+      toast({
+        position: 'top',
+        render: () => (
+          <Box color='white' p={3} bg='green.500' borderRadius={'5px'}>
+            {msg}
+          </Box>
+        ),
+      })
+    }
+    else{
+      toast({
+        position: 'top',
+        render: () => (
+          <Box color='white' p={3} bg='#FF6347' borderRadius={'5px'}>
+            {msg}
+          </Box>
+        ),
+      })
+    }
   }
 
   return (
@@ -112,10 +140,10 @@ export default function Login() {
                     localStorage.removeItem("AdminToken");
                     let token=localStorage.getItem("AdminToken");
                     if(!token){
-                        alert("Log out successful !")
+                        customAlert("success","Log out successful !")
                     }
                     else{
-                        alert("Not able to logout")
+                      customAlert("fail","Not able to logout")
                     }
                 }}
                 loadingText="Submitting"

@@ -1,29 +1,29 @@
-import {
-    Box,
-    Center,
-    useColorModeValue,
-    Heading,
-    Text,
-    Stack,
-    Image,
-    Tooltip,
-  } from '@chakra-ui/react'
-  import { DeleteIcon } from '@chakra-ui/icons'
-import { useEffect, useState } from 'react';
-  
+import {Box,Center,useColorModeValue,Heading,Text,Stack,Image,Tooltip,useToast} from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { useContext, useEffect, useState } from 'react';
+import {RenderContext} from "../ContextApi/RenderContext";
+
   export default function HomeCard({content}) {
       const {title,description,image,tabDescription,external}=content;
+      const { forceRender, renderState } = useContext(RenderContext);
       const [token, setToken]=useState("");
+
+      const toast = useToast()
 
       useEffect(()=>{
         getToken()
-      },[])
-      
-      const deleteHomeFeatureContent=()=>{
+      },[forceRender])
+
+      const handleDelete=()=>{
         if(!token){
-          alert("Access denied !")
+          customAlert("fail","Access denied !")
         }
         else{
+          deleteHomeFeatureContent()
+        }
+      }
+
+      const deleteHomeFeatureContent=()=>{
           fetch(`http://localhost:8080/homefeature/delete/${content._id}`, {
             method: 'DELETE',
             headers: {
@@ -32,14 +32,50 @@ import { useEffect, useState } from 'react';
             },
           })
           .then((res)=>res.json())
-            .then((res)=>console.log(res)) 
-            .catch((err)=>console.log(err))
-        }
+            .then((res)=>
+              {
+                customAlert("success","Post deleted successfully")
+                forceRender()
+              })
+            .catch((err)=>customAlert("fail","Something went wrong !"))
       }
 
       const getToken=()=>{
         let authToken=localStorage.getItem("AdminToken");
         setToken(authToken);
+      }
+
+      const customAlert=(status, msg)=>{
+        if(status=='success'){
+          toast({
+            position: 'top',
+            render: () => (
+              <Box color='white' p={3} bg='green.500' borderRadius={'5px'}>
+                {msg}
+              </Box>
+            ),
+          })
+        }
+        else if(status=='fail'){
+          toast({
+            position: 'top',
+            render: () => (
+              <Box color='white' p={3} bg='#FF6347' borderRadius={'5px'}>
+                {msg}
+              </Box>
+            ),
+          })
+        }
+        else{
+          toast({
+            position: 'top',
+            render: () => (
+              <Box color='white' p={3} bg='blue.500' borderRadius={'5px'}>
+                {msg}
+              </Box>
+            ),
+          })
+        }
       }
 
 
@@ -154,7 +190,7 @@ import { useEffect, useState } from 'react';
               </Box>
             </Stack>
                   <Tooltip label='Delete'>
-                    <Text fontSize={'20px'} color={'red'} onClick={deleteHomeFeatureContent} ><DeleteIcon/></Text>
+                    <Text fontSize={'20px'} color={'red'} onClick={handleDelete} ><DeleteIcon/></Text>
                   </Tooltip>
             
           </Stack>

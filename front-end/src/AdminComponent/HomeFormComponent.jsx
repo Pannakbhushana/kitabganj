@@ -10,30 +10,36 @@ import {
   Input,
   Textarea,
   Grid,
-  GridItem
+  GridItem,
+  useToast
 } from '@chakra-ui/react'
 
-// import { useToast } from '@chakra-ui/react'
 import HomeCard from './HomeCard'
+import SideBar from './SideBar';
+import { useContext } from 'react';
+import {RenderContext} from "../ContextApi/RenderContext"
+
 
 
 export default function HomeFormComponent() {
   let initState={tabDescription:"",title:"",description:"",image:"",external:""}
   const [homeFeatureContent, setHomeFeatureContent]=useState([]);
+  const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
   const [token, setToken]=useState("");
-  
+  const [page, setPage]=useState(1)
+  const toast = useToast()
+
 
   const handleChange=(e)=>{
     setFormData({...formData, [e.target.name]:e.target.value});
   }
 
   useEffect(()=>{
-      getHomeFeatureContent() 
+      getHomeFeatureContent(page) 
       getToken()
-  },[])
+  },[page,renderState])
 
-  // const toast = useToast()
 
   const getToken=()=>{
     let authToken=localStorage.getItem("AdminToken");
@@ -41,7 +47,7 @@ export default function HomeFormComponent() {
   }
 
   const getHomeFeatureContent=(page)=>{
-    fetch(`http://localhost:8080/homefeature`)
+    fetch(`http://localhost:8080/homefeature?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>setHomeFeatureContent(res)) 
       .catch((err)=>console.log(err))
@@ -57,8 +63,11 @@ export default function HomeFormComponent() {
       body: JSON.stringify(postData)
     })
     .then((res)=>res.json())
-      .then((res)=>console.log(res)) 
-      .catch((err)=>console.log(err))
+      .then((res)=>{
+        forceRender()
+        customAlert("success","Post added successfully")
+      }) 
+      .catch((err)=>customAlert("fail","Something went wrong !"))
   }
 
   const updateHomeFeatureContent=(postData,id)=>{
@@ -71,10 +80,46 @@ export default function HomeFormComponent() {
       body: JSON.stringify(postData)
     })
     .then((res)=>res.json())
-      .then((res)=>console.log(res)) 
-      .catch((err)=>console.log(err))
+      .then((res)=>{
+        forceRender()
+        customAlert("success","Post updated successfully")
+      }) 
+      .catch((err)=>customAlert("fail","Something went wrong !"))
   }
 
+const customAlert=(status, msg)=>{
+  if(status=='success'){
+    toast({
+      position: 'top',
+      render: () => (
+        <Box color='white' p={3} bg='green.500' borderRadius={'5px'}>
+          {msg}
+        </Box>
+      ),
+    })
+  }
+  else if(status=='fail'){
+    toast({
+      position: 'top',
+      render: () => (
+        <Box color='white' p={3} bg='#FF6347' borderRadius={'5px'}>
+          {msg}
+        </Box>
+      ),
+    })
+  }
+  else{
+    toast({
+      position: 'top',
+      render: () => (
+        <Box color='white' p={3} bg='blue.500' borderRadius={'5px'}>
+          {msg}
+        </Box>
+      ),
+    })
+  }
+}
+console.log(renderState)
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
@@ -86,7 +131,7 @@ export default function HomeFormComponent() {
       setFormData(initState)
     }
     else{
-      alert("Access denied !")
+      customAlert("fail","Access denied !")
     }
   }
 
@@ -96,6 +141,8 @@ export default function HomeFormComponent() {
 
   return (
     <>
+      <Box mt={'-40px'} >
+        <SideBar/>
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -154,29 +201,32 @@ export default function HomeFormComponent() {
                 variant="solid"
                 onClick={() => {
                   handleSubmit()
-                  // toast({
-                  //   title: ' new Post Added',
-                  //   // description: "post",
-                  //   status: 'success',
-                  //   duration: 3000,
-                  //   isClosable: true,
-                  // })
                 }}>
                 Submit
               </Button> 
           </Flex>
         </ButtonGroup>
       </Box>
+      </Box>
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
             <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
             {homeFeatureContent.map((product,i)=>{
                 return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                          <GridItem ><HomeCard content={product} />
+                          <GridItem ><HomeCard content={product}  />
                         </GridItem></div>
             })}
             </Grid>
         </Box>
+           <br />
+           <br />
+                <Box display='flex' justifyContent='center'>
+                    <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
+                    <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={homeFeatureContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
+                </Box>
+                <br />
+                <br />
     </>
   )
 }
