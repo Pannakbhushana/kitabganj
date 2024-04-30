@@ -10,16 +10,17 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
+import Loading from '../PageComponent/Loading';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [formState, setFormState]=useState({email:"",password:""})
+  const [isLoading, setIsLoading]=useState(false)
   const navigate=useNavigate();
   const toast = useToast()
 
@@ -38,6 +39,7 @@ export default function Login() {
   }
 
   const authenticate=(data)=>{
+    setIsLoading(true);
       fetch("http://localhost:8080/admin/kitabganj/login",{
         method:"POST",
         headers:{
@@ -48,16 +50,22 @@ export default function Login() {
       .then((res)=>res.json())
       .then((res)=>{
         if(res.token){
+            setIsLoading(false);
             localStorage.setItem("AdminToken",res.token);
             customAlert("success","Log in successful")
             navigate("/kitabganjadmin")
         }
         else{
+          setIsLoading(false);
           customAlert("fail","Wrong credentials !")
         }
 
       }) 
-      .catch((err)=>customAlert("fail","Something went wrong !"))
+      .catch((err)=>{
+        setIsLoading(false);
+        customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
+      })
   }
 
   const customAlert=(status, msg)=>{
@@ -83,13 +91,17 @@ export default function Login() {
     }
   }
 
+if(isLoading){
+  return <Loading/>
+}
+
   return (
     <Flex
       paddingTop={'80px'}
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>
@@ -101,7 +113,6 @@ export default function Login() {
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>

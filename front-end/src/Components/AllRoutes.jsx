@@ -13,6 +13,7 @@ import AdminAboutPage from '../AdminComponent/AdminAboutPage';
 import AdminCarousel from '../AdminComponent/AdminCarousel';
 import AdminPoem from '../AdminComponent/AdminPoem';
 import AdminBlog from '../AdminComponent/AdminBlog';
+import AdminCotiDukan from '../AdminComponent/AdminChotiDukan';
 
 function AllRoutes() {
   return (
@@ -29,6 +30,7 @@ function AllRoutes() {
         <Route path="/admincarousel" element={<AdminCarousel/>} />
         <Route path="/adminpoem" element={<AdminPoem/>} />
         <Route path="/adminblog" element={<AdminBlog/>} />
+        <Route path="/admindukan" element={<AdminCotiDukan/>} />
         <Route path="/details/:id" element={<SingleProductPage/>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>

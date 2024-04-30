@@ -18,14 +18,14 @@ import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
-import Loading from '../PageComponent/Loading';
 import NoDataFound from '../PageComponent/NoDataFound';
+import Loading from '../PageComponent/Loading';
 
 
 
-export default function AdminBlog() {
-  let initState={title:"",description:"",image:"",heading:""}
-  const [blogContent, setPoemContent]=useState([]);
+export default function AdminCotiDukan() {
+  let initState={title:"",description:"",image:"",external:""}
+  const [chotiDukanContent, setChotiDukanContent]=useState([]);
   const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
   const [isLoading, setIsLoading]=useState(false)
@@ -39,7 +39,7 @@ export default function AdminBlog() {
   }
 
   useEffect(()=>{
-    getBlogContent(page) 
+    getContent(page) 
       getToken()
   },[page,renderState])
 
@@ -49,13 +49,13 @@ export default function AdminBlog() {
     setToken(authToken);
   }
 
-  const getBlogContent=(page)=>{
+  const getContent=(page)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/blog?page=${page}&&limit=9`)
+    fetch(`http://localhost:8080/chotidukaan?page=${page}&&limit=12`)
       .then((res)=>res.json())
       .then((res)=>{
-        setIsLoading(false)
-        setPoemContent(res)
+          setChotiDukanContent(res)
+          setIsLoading(false)
       }) 
       .catch((err)=>{
         setIsLoading(false)
@@ -64,9 +64,9 @@ export default function AdminBlog() {
       })
   }
 
-  const addBlogContent=(postData)=>{
+  const addContent=(postData)=>{
     setIsLoading(true)
-    fetch("http://localhost:8080/blog/add", {
+    fetch("http://localhost:8080/chotidukaan/add", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,9 +86,9 @@ export default function AdminBlog() {
       })
   }
 
-  const updateBlogContent=(postData,id)=>{
+  const updateContent=(postData,id)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/blog/update/${id}`, {
+    fetch(`http://localhost:8080/chotidukaan/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -98,12 +98,12 @@ export default function AdminBlog() {
     })
     .then((res)=>res.json())
       .then((res)=>{
-        setIsLoading(false);
+        setIsLoading(false)
         forceRender()
         customAlert("success","Post updated successfully")
       }) 
       .catch((err)=>{
-        setIsLoading(false);
+        setIsLoading(false)
         customAlert("fail","Something went wrong !")
       })
   }
@@ -143,10 +143,10 @@ const customAlert=(status, msg)=>{
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
-        {token && updateBlogContent(formData,formData._id)}
+        {token && updateContent(formData,formData._id)}
       }
       else{
-        {token && addBlogContent(formData)}
+        {token && addContent(formData)}
       }
       setFormData(initState)
     }
@@ -176,7 +176,7 @@ const customAlert=(status, msg)=>{
         m="10px auto"
         as="form">
           
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%"> Customise Blog Page </Heading>
+      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%"> Customise Choti Dukaan </Heading>
 
       <Flex>
         <FormControl>
@@ -194,13 +194,13 @@ const customAlert=(status, msg)=>{
       </Flex>
 
       <FormControl mt="2%">
-        <FormLabel fontWeight={'normal'}>Description</FormLabel>
-        <Input placeholder='description' onChange={handleChange} name='description' value={formData.description} />
+        <FormLabel fontWeight={'normal'}>Purchase Link</FormLabel>
+        <Input placeholder='eg: Amazon/FlipKart' onChange={handleChange} name='external' value={formData.external} />
       </FormControl>
 
       <FormControl mt="2%">
-        <FormLabel fontWeight={'normal'}>Heading</FormLabel>
-        <Textarea placeholder='heading' onChange={handleChange} name='heading' value={formData.heading} />
+        <FormLabel fontWeight={'normal'}>Description</FormLabel>
+        <Textarea placeholder='description' onChange={handleChange} name='description' value={formData.description} />
       </FormControl>
 
         <ButtonGroup mt="5%" w="100%">
@@ -229,29 +229,28 @@ const customAlert=(status, msg)=>{
       </Box>
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
-        {
-          blogContent.length ? <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
-          {blogContent.length && blogContent.map((product,i)=>{
-              return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                        <GridItem ><HomeCard content={{
-                                                       _id:product._id,
-                                                       title:product.title,
-                                                       description:product.description,
-                                                       image:product.image,
-                                                       heading:product.heading
-                                                      }} endPoint={'blog'} />
-                      </GridItem></div>
-          })}
-          </Grid> :<NoDataFound/>
-        }
-            
+            {
+                chotiDukanContent.length ? <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
+                {chotiDukanContent.map((product,i)=>{
+                    return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
+                              <GridItem ><HomeCard content={{
+                                                             _id:product._id,
+                                                             title:product.title,
+                                                             description:product.description,
+                                                             image:product.image,
+                                                             external:product.external
+                                                            }} endPoint={'chotidukaan'} />
+                            </GridItem></div>
+                })}
+                </Grid>:<NoDataFound/>
+            }
         </Box>
            <br />
            <br />
                 <Box display='flex' justifyContent='center'>
                     <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
                     <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
-                    <Button colorScheme='teal' variant='outline' isDisabled={blogContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={chotiDukanContent.length<12} onClick={()=>{setPage(page+1)}}>Next</Button>
                 </Box>
                 <br />
                 <br />

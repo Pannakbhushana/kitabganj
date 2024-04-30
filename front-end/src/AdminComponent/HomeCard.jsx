@@ -2,10 +2,11 @@ import {Box,Center,useColorModeValue,Heading,Text,Stack,Image,Tooltip,useToast} 
 import { DeleteIcon } from '@chakra-ui/icons'
 import { useContext, useEffect, useState } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext";
+import Loading from '../PageComponent/Loading';
 
   export default function HomeCard({content,endPoint}) {
       const {title,description,image,tabDescription,external,titleColor,textColor,poem,heading,imageHeight}=content;
-      const { forceRender, renderState } = useContext(RenderContext);
+      const { forceRender,showLoading, hideLoading } = useContext(RenderContext);
       const [token, setToken]=useState("");
       const toast = useToast()
 
@@ -23,6 +24,7 @@ import {RenderContext} from "../ContextApi/RenderContext";
       }
 
       const deleteHomeFeatureContent=()=>{
+        showLoading()
           fetch(`http://localhost:8080/${endPoint}/delete/${content._id}`, {
             method: 'DELETE',
             headers: {
@@ -33,10 +35,15 @@ import {RenderContext} from "../ContextApi/RenderContext";
           .then((res)=>res.json())
             .then((res)=>
               {
+                hideLoading()
                 customAlert("success","Post deleted successfully")
                 forceRender()
               })
-            .catch((err)=>customAlert("fail","Something went wrong !"))
+            .catch((err)=>{
+              hideLoading()
+              customAlert("fail","Something went wrong !")
+              customAlert("fail",err.message)
+            })
       }
 
       const getToken=()=>{
@@ -76,7 +83,6 @@ import {RenderContext} from "../ContextApi/RenderContext";
           })
         }
       }
-
 
     return (
       <Center py={12}>

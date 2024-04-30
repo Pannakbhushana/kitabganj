@@ -1,11 +1,13 @@
 import { Box, Text, Button } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BlogCard from "../PageComponent/BlogCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import {RenderContext} from "../ContextApi/RenderContext" 
+import Loading from '../PageComponent/Loading'
 
 const PrevArrow = (props) => {
   const { onClick } = props;
@@ -51,16 +53,24 @@ const NextArrow = (props) => {
 
 function Blog() {
   const [blogData, setBlogData]=useState([]);
+  const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
 
   useEffect(()=>{
     getBlogData()
   },[])
 
   const getBlogData=()=>{
+    showLoading()
     fetch("http://localhost:8080/blog")
       .then((res)=>res.json())
-      .then((res)=>setBlogData(res)) 
-      .catch((err)=>console.log(err))
+      .then((res)=>{
+        hideLoading()
+        setBlogData(res)
+      }) 
+      .catch((err)=>{
+        hideLoading()
+        console.log(err)
+      })
   }
 
   const settings = {
@@ -93,6 +103,10 @@ function Blog() {
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
   };
+
+  if(isLoading){
+    return <Loading/>
+  }
 
   return (
     <Box

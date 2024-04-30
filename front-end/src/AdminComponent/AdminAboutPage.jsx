@@ -18,6 +18,8 @@ import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
+import Loading from '../PageComponent/Loading';
+import NoDataFound from '../PageComponent/NoDataFound';
 
 
 
@@ -26,6 +28,7 @@ export default function AdminAboutPage() {
   const [aboutMeContent, setAboutMeContent]=useState([]);
   const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
+  const [isLoading, setIsLoading]=useState(false)
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
@@ -47,16 +50,22 @@ export default function AdminAboutPage() {
   }
 
   const getAboutMeContent=(page)=>{
+    setIsLoading(true)
     fetch(`http://localhost:8080/aboutme?page=${page}&&limit=9`)
       .then((res)=>res.json())
-      .then((res)=>setAboutMeContent(res)) 
+      .then((res)=>{
+        setAboutMeContent(res)
+        setIsLoading(false)
+      }) 
       .catch((err)=>{
+        setIsLoading(false)
         customAlert("fail","Something went wrong !")
         console.log(err)
       })
   }
 
   const addAboutMeContent=(postData)=>{
+    setIsLoading(true)
     fetch("http://localhost:8080/aboutme/add", {
       method: 'POST',
       headers: {
@@ -67,16 +76,19 @@ export default function AdminAboutPage() {
     })
     .then((res)=>res.json())
       .then((res)=>{
+        setIsLoading(false)
         forceRender()
         customAlert("success","Post added successfully")
       }) 
       .catch((err)=>{
+        setIsLoading(false)
         customAlert("fail","Something went wrong !")
         console.log(err)
       })
   }
 
   const updateAboutMeContent=(postData,id)=>{
+    setIsLoading(true)
     fetch(`http://localhost:8080/aboutme/update/${id}`, {
       method: 'PATCH',
       headers: {
@@ -87,10 +99,14 @@ export default function AdminAboutPage() {
     })
     .then((res)=>res.json())
       .then((res)=>{
+        setIsLoading(false)
         forceRender()
         customAlert("success","Post updated successfully")
       }) 
-      .catch((err)=>customAlert("fail","Something went wrong !"))
+      .catch((err)=>{
+        setIsLoading(false)
+        customAlert("fail","Something went wrong !")
+      })
   }
 
 const customAlert=(status, msg)=>{
@@ -143,6 +159,10 @@ const customAlert=(status, msg)=>{
   const handleCardClick=(props)=>{
     setFormData(props)
   }
+
+if(isLoading){
+  return <Loading/>
+}
 
   return (
     <>
@@ -205,13 +225,15 @@ const customAlert=(status, msg)=>{
       </Box>
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
-            <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
-            {aboutMeContent.length && aboutMeContent.map((product,i)=>{
-                return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                          <GridItem ><HomeCard content={product} endPoint={'aboutme'} />
-                        </GridItem></div>
-            })}
-            </Grid>
+            { aboutMeContent.length ?
+              <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
+              {aboutMeContent.map((product,i)=>{
+                  return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
+                            <GridItem ><HomeCard content={product} endPoint={'aboutme'} />
+                          </GridItem></div>
+              })}
+              </Grid>:<NoDataFound/>
+            }
         </Box>
            <br />
            <br />
