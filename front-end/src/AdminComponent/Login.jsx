@@ -5,23 +5,24 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
-  useColorModeValue,
-  Link,
+  useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
+import Loading from '../PageComponent/Loading';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [formState, setFormState]=useState({email:"",password:""})
+  const [isLoading, setIsLoading]=useState(false)
   const navigate=useNavigate();
+  const toast = useToast()
 
   const handleChange=(e)=>{
     setFormState({...formState, [e.target.name]:e.target.value})
@@ -33,11 +34,12 @@ export default function Login() {
         setFormState({email:"",password:""});
     }
     else{
-        alert("Email or Password can't be empty !")
+      customAlert("fail","Email or Password can't be empty !")
     }
   }
 
   const authenticate=(data)=>{
+    setIsLoading(true);
       fetch("http://localhost:8080/admin/kitabganj/login",{
         method:"POST",
         headers:{
@@ -47,14 +49,51 @@ export default function Login() {
       })
       .then((res)=>res.json())
       .then((res)=>{
-        localStorage.setItem("AdminToken",res.token);
         if(res.token){
+            setIsLoading(false);
+            localStorage.setItem("AdminToken",res.token);
+            customAlert("success","Log in successful")
             navigate("/kitabganjadmin")
+        }
+        else{
+          setIsLoading(false);
+          customAlert("fail","Wrong credentials !")
         }
 
       }) 
-      .catch((err)=>console.log(err))
+      .catch((err)=>{
+        setIsLoading(false);
+        customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
+      })
   }
+
+  const customAlert=(status, msg)=>{
+    if(status==='success'){
+      toast({
+        position: 'top',
+        render: () => (
+          <Box color='white' p={3} bg='green.500' borderRadius={'5px'}>
+            {msg}
+          </Box>
+        ),
+      })
+    }
+    else{
+      toast({
+        position: 'top',
+        render: () => (
+          <Box color='white' p={3} bg='#FF6347' borderRadius={'5px'}>
+            {msg}
+          </Box>
+        ),
+      })
+    }
+  }
+
+if(isLoading){
+  return <Loading/>
+}
 
   return (
     <Flex
@@ -62,7 +101,7 @@ export default function Login() {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>
@@ -74,7 +113,6 @@ export default function Login() {
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
@@ -112,10 +150,10 @@ export default function Login() {
                     localStorage.removeItem("AdminToken");
                     let token=localStorage.getItem("AdminToken");
                     if(!token){
-                        alert("Log out successful !")
+                        customAlert("success","Log out successful !")
                     }
                     else{
-                        alert("Not able to logout")
+                      customAlert("fail","Not able to logout")
                     }
                 }}
                 loadingText="Submitting"

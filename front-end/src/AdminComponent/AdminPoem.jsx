@@ -23,11 +23,12 @@ import NoDataFound from '../PageComponent/NoDataFound';
 
 
 
-export default function HomeFormComponent() {
-  let initState={tabDescription:"",title:"",description:"",image:"",external:""}
-  const [homeFeatureContent, setHomeFeatureContent]=useState([]);
-  const { forceRender, renderState, isLoading, showLoading, hideLoading } = useContext(RenderContext);
+export default function AdminPoem() {
+  let initState={title:"",description:"",image:"",poem:"",imageHeight:""}
+  const [poemContent, setPoemContent]=useState([]);
+  const { forceRender, renderState } = useContext(RenderContext);
   const [formData, setFormData]=useState(initState)
+  const [isLoading, setIsLoading]=useState(false)
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
@@ -38,7 +39,7 @@ export default function HomeFormComponent() {
   }
 
   useEffect(()=>{
-      getHomeFeatureContent(page) 
+    getPoemContent(page) 
       getToken()
   },[page,renderState])
 
@@ -48,25 +49,24 @@ export default function HomeFormComponent() {
     setToken(authToken);
   }
 
-  const getHomeFeatureContent=(page)=>{
-    showLoading()
-    fetch(`http://localhost:8080/homefeature?page=${page}&&limit=9`)
+  const getPoemContent=(page)=>{
+    setIsLoading(true);
+    fetch(`http://localhost:8080/poem?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>{
-        hideLoading()
-        setHomeFeatureContent(res)
+        setIsLoading(false);
+        setPoemContent(res)
       }) 
       .catch((err)=>{
-        hideLoading()
-        customAlert("fail","Something went wrong !")
+        setIsLoading(false);
         customAlert("fail",err.message)
         console.log(err)
       })
   }
 
-  const addHomeFeatureContent=(postData)=>{
-    showLoading()
-    fetch("http://localhost:8080/homefeature/add", {
+  const addPoemContent=(postData)=>{
+    setIsLoading(true);
+    fetch("http://localhost:8080/poem/add", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,20 +76,20 @@ export default function HomeFormComponent() {
     })
     .then((res)=>res.json())
       .then((res)=>{
-        hideLoading()
+        setIsLoading(false);
         forceRender()
         customAlert("success","Post added successfully")
       }) 
       .catch((err)=>{
-        hideLoading()
+        setIsLoading(false);
         customAlert("fail","Something went wrong !")
         customAlert("fail",err.message)
       })
   }
 
-  const updateHomeFeatureContent=(postData,id)=>{
-    showLoading()
-    fetch(`http://localhost:8080/homefeature/update/${id}`, {
+  const updatePoemContent=(postData,id)=>{
+    setIsLoading(true);
+    fetch(`http://localhost:8080/poem/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -99,14 +99,14 @@ export default function HomeFormComponent() {
     })
     .then((res)=>res.json())
       .then((res)=>{
-        hideLoading()
+        setIsLoading(false);
         forceRender()
         customAlert("success","Post updated successfully")
       }) 
       .catch((err)=>{
-        hideLoading()
+        setIsLoading(false);
         customAlert("fail","Something went wrong !")
-        customAlert("fail",err.message)
+        customAlert("fail",err.message);
       })
   }
 
@@ -142,14 +142,13 @@ const customAlert=(status, msg)=>{
     })
   }
 }
-
   const handleSubmit=(e)=>{
     if(token){
       if(formData._id){
-        {token && updateHomeFeatureContent(formData,formData._id)}
+        {token && updatePoemContent(formData,formData._id)}
       }
       else{
-        {token && addHomeFeatureContent(formData)}
+        {token && addPoemContent(formData)}
       }
       setFormData(initState)
     }
@@ -168,7 +167,7 @@ const customAlert=(status, msg)=>{
 
   return (
     <>
-      <Box mt={'-40px'} >
+      <Box pt={'85px'} >
         <SideBar/>
       <Box
         borderWidth="1px"
@@ -179,36 +178,37 @@ const customAlert=(status, msg)=>{
         m="10px auto"
         as="form">
           
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">Customise Home Page</Heading>
+      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%"> Customise Poem Page </Heading>
 
       <Flex>
-        <FormControl mr="5%">
-          <FormLabel htmlFor="first-name" fontWeight={'normal'}>Tab text</FormLabel>
-          <Input id="first-name" placeholder="Tab Description" onChange={handleChange} name='tabDescription' value={formData.tabDescription} />
-        </FormControl>
-
         <FormControl>
-          <FormLabel htmlFor="last-name" fontWeight={'normal'}>Title</FormLabel>
-          <Input id="last-name" placeholder="Title" onChange={handleChange} name='title' value={formData.title} />
+          <FormLabel  fontWeight={'normal'}>Title</FormLabel>
+          <Input  placeholder="Title" onChange={handleChange} name='title' value={formData.title} />
         </FormControl>
       </Flex>
 
       <Flex>
-        <FormControl mr="5%">
-          <FormLabel htmlFor="first-name" fontWeight={'normal'}>Purches Link</FormLabel>
-          <Input id="first-name" placeholder="purches link" onChange={handleChange} name='external' value={formData.external} />
-        </FormControl>
-
         <FormControl>
-          <FormLabel htmlFor="last-name" fontWeight={'normal'} >Image Url</FormLabel>
-          <Input id="last-name" placeholder="Image url" onChange={handleChange} name='image' value={formData.image} />
+          <FormLabel  fontWeight={'normal'} >Image Url</FormLabel>
+          <Input  placeholder="Image url" onChange={handleChange} name='image' value={formData.image} />
         </FormControl>
-        
+      </Flex>
+
+      <Flex>
+        <FormControl>
+          <FormLabel  fontWeight={'normal'} >Image Height</FormLabel>
+          <Input  placeholder="eg: 200px" onChange={handleChange} name='imageHeight' value={formData.imageHeight} />
+        </FormControl>
       </Flex>
 
       <FormControl mt="2%">
-        <FormLabel htmlFor="email" fontWeight={'normal'}>Description</FormLabel>
-        <Textarea placeholder='Description' onChange={handleChange} name='description' value={formData.description} />
+        <FormLabel fontWeight={'normal'}>Description</FormLabel>
+        <Input placeholder='description' onChange={handleChange} name='description' value={formData.description} />
+      </FormControl>
+
+      <FormControl mt="2%">
+        <FormLabel fontWeight={'normal'}>Poem</FormLabel>
+        <Textarea placeholder='Poem' onChange={handleChange} name='poem' value={formData.poem} />
       </FormControl>
 
         <ButtonGroup mt="5%" w="100%">
@@ -238,13 +238,20 @@ const customAlert=(status, msg)=>{
       
       <Box w='80%' marginLeft='10%' marginTop='5%'>
         {
-          homeFeatureContent.length ? <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
-          {homeFeatureContent.map((product,i)=>{
+          poemContent.length ? <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
+          {poemContent.map((product,i)=>{
               return <div key={i} onClick={()=>{handleCardClick(product)}} style={{cursor:'pointer'}}>
-                        <GridItem ><HomeCard content={product} endPoint={'homefeature'}  />
+                        <GridItem ><HomeCard content={{
+                                                       _id:product._id,
+                                                       title:product.title,
+                                                       description:product.description,
+                                                       image:product.image,
+                                                       imageHeight:product.imageHeight,
+                                                       poem:product.poem
+                                                      }} endPoint={'poem'} />
                       </GridItem></div>
           })}
-          </Grid> :<NoDataFound/>
+          </Grid> : <NoDataFound/>
         }
         </Box>
            <br />
@@ -252,7 +259,7 @@ const customAlert=(status, msg)=>{
                 <Box display='flex' justifyContent='center'>
                     <Button colorScheme='teal' variant='outline' isDisabled={page<=1} onClick={()=>{setPage(page-1)}}>Prev</Button>
                     <Button colorScheme='teal' variant='ghost' isDisabled>{page}</Button>
-                    <Button colorScheme='teal' variant='outline' isDisabled={homeFeatureContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
+                    <Button colorScheme='teal' variant='outline' isDisabled={poemContent.length<9} onClick={()=>{setPage(page+1)}}>Next</Button>
                 </Box>
                 <br />
                 <br />

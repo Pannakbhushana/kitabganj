@@ -9,7 +9,11 @@ import ChotiDukan from '../Pages/ChotiDukan';
 import SingleProductPage from '../Pages/SingleProductPage';
 import AdminPage from '../Pages/AdminPage';
 import Login from '../AdminComponent/Login';
-// import BlogArticle from '../PageComponent/BlogArticle';
+import AdminAboutPage from '../AdminComponent/AdminAboutPage';
+import AdminCarousel from '../AdminComponent/AdminCarousel';
+import AdminPoem from '../AdminComponent/AdminPoem';
+import AdminBlog from '../AdminComponent/AdminBlog';
+import AdminCotiDukan from '../AdminComponent/AdminChotiDukan';
 
 function AllRoutes() {
   return (
@@ -22,8 +26,12 @@ function AllRoutes() {
         <Route path="/poems" element={<Poems/>} />
         <Route path="/kitabganjadmin" element={<AdminPage/>} />
         <Route path="/adminlogin" element={<Login/>} />
+        <Route path="/adminaboutme" element={<AdminAboutPage/>} />
+        <Route path="/admincarousel" element={<AdminCarousel/>} />
+        <Route path="/adminpoem" element={<AdminPoem/>} />
+        <Route path="/adminblog" element={<AdminBlog/>} />
+        <Route path="/admindukan" element={<AdminCotiDukan/>} />
         <Route path="/details/:id" element={<SingleProductPage/>} />
-        {/* <Route path="/blog/:id" element={<BlogArticle/>} /> */}
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </>
