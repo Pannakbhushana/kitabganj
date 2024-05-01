@@ -1,23 +1,10 @@
 import React from 'react';
-import {
-    Drawer,
-    DrawerBody,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerOverlay,
-    DrawerContent,
-    DrawerCloseButton,
-    useDisclosure,
-    Button,
-    Box,
-    Text
-  } from '@chakra-ui/react'
-  import { CloseIcon } from '@chakra-ui/icons';
-  import {Link} from "react-router-dom"
+import {Drawer,DrawerBody,DrawerHeader,DrawerOverlay,DrawerContent,useDisclosure,Button,Box,Text} from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons';
+import {Link} from "react-router-dom"
 
 function SideBar() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [placement, setPlacement] = React.useState('right')
   
     return (
       <Box display={'flex'} justifyContent={'start'} w={'80px'} ml={'2%'}>

@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Heading,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Grid,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-
+import {Box,ButtonGroup,Button,Heading,Flex,FormControl,FormLabel,Input,Textarea,Grid,GridItem,useToast} from '@chakra-ui/react'
 import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
 import Loading from '../PageComponent/Loading';
 import NoDataFound from '../PageComponent/NoDataFound';
-
-
 
 export default function AdminBlog() {
   let initState={title:"",description:"",image:"",heading:""}
@@ -32,6 +16,7 @@ export default function AdminBlog() {
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
 
   const handleChange=(e)=>{
@@ -51,7 +36,7 @@ export default function AdminBlog() {
 
   const getBlogContent=(page)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/blog?page=${page}&&limit=9`)
+    fetch(`${baseUrl}/blog?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>{
         setIsLoading(false)
@@ -66,7 +51,7 @@ export default function AdminBlog() {
 
   const addBlogContent=(postData)=>{
     setIsLoading(true)
-    fetch("http://localhost:8080/blog/add", {
+    fetch(`${baseUrl}/blog/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,12 +68,13 @@ export default function AdminBlog() {
       .catch((err)=>{
         setIsLoading(false)
         customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
       })
   }
 
   const updateBlogContent=(postData,id)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/blog/update/${id}`, {
+    fetch(`${baseUrl}/blog/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -105,6 +91,7 @@ export default function AdminBlog() {
       .catch((err)=>{
         setIsLoading(false);
         customAlert("fail","Something went wrong !")
+        customAlert("fail",err.message)
       })
   }
 

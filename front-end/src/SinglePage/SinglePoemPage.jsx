@@ -1,25 +1,15 @@
-import {
-    Box,
-    Container,
-    Stack,
-    Text,
-    Image,
-    Flex,
-    VStack,
-    Heading,
-    SimpleGrid,
-    StackDivider,
-  } from '@chakra-ui/react'
+  import {Box,Container,Stack,Text,Image,Flex,VStack,SimpleGrid,StackDivider,} from '@chakra-ui/react'
   import { useParams} from 'react-router-dom';
   import { useContext, useEffect, useState } from 'react';
   import { RenderContext } from '../ContextApi/RenderContext';
-import Loading from '../PageComponent/Loading';
+  import Loading from '../PageComponent/Loading';
   
   export default function SinglePoemPage() {
     const [poemContent, setPoemContent]=useState({});
     const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
     const {title,image,description,poem}=poemContent;
     const param=useParams();
+    const baseUrl=process.env.REACT_APP_API_URL;
 
     useEffect(()=>{
         getPoemData()
@@ -27,7 +17,7 @@ import Loading from '../PageComponent/Loading';
     
       const getPoemData=()=>{
         showLoading()
-        fetch(`http://localhost:8080/poem?_id=${param.id}`)
+        fetch(`${baseUrl}/poem?_id=${param.id}`)
           .then((res)=>res.json())
           .then((res)=>{
             hideLoading()
@@ -46,25 +36,29 @@ import Loading from '../PageComponent/Loading';
     return (
       <Container maxW={'7xl'} paddingTop={'80px'} minHeight={'650px'}>
 
-       <Box  mt={'2%'}>
-        <Text fontSize="4xl" as={'b'}>{title}</Text>
-      </Box>
+       { title &&
+        <Box  mt={'2%'}>
+          <Text fontSize="4xl" as={'b'}>{title}</Text>
+        </Box>
+       }
 
         <SimpleGrid
           mt={{ base: 0, md:"-3%", lg: '-3%' }}
           columns={{ base: 1, lg: 2 }}
           spacing={{ base: 8, md: 10 }}
           py={{ base: 18, md: 24 }}>
-             <Flex>
-                <Image
-                rounded={'md'}
-                alt={'product image'}
-                src={image}
-                fit={'cover'}
-                align={'center'}
-                w={'100%'}
-                />
-          </Flex>
+            {image &&
+               <Flex>
+                  <Image
+                  rounded={'md'}
+                  alt={'product image'}
+                  src={image}
+                  fit={'cover'}
+                  align={'center'}
+                  w={'100%'}
+                  />
+              </Flex>
+            }
 
           <Stack spacing={{ base: 6, md: 10 }}>
             <Stack

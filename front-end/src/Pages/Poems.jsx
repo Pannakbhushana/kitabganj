@@ -11,6 +11,7 @@ function Poems() {
   const [page, setPage]=useState(1)
   const [poemContent, setPoemContent]=useState([]);
   const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   useEffect(()=>{
     getPoemData(page)
@@ -18,7 +19,7 @@ function Poems() {
 
   const getPoemData=(page)=>{
     showLoading()
-    fetch(`http://localhost:8080/poem?page=${page}&&limit=10`)
+    fetch(`${baseUrl}/poem?page=${page}&&limit=10`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()

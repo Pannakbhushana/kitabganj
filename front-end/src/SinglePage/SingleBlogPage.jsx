@@ -1,18 +1,7 @@
-import {
-    Box,
-    Container,
-    Stack,
-    Text,
-    Image,
-    Flex,
-    VStack,
-    Heading,
-    SimpleGrid,
-    StackDivider,
-  } from '@chakra-ui/react'
-  import { useParams} from 'react-router-dom';
-  import { useContext, useEffect, useState } from 'react';
-  import { RenderContext } from '../ContextApi/RenderContext';
+import {Box,Container,Stack,Text,Image,Flex,VStack,SimpleGrid,StackDivider,} from '@chakra-ui/react'
+import { useParams} from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { RenderContext } from '../ContextApi/RenderContext';
 import Loading from '../PageComponent/Loading';
   
   export default function SingleBlogPage() {
@@ -20,6 +9,7 @@ import Loading from '../PageComponent/Loading';
     const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
     const {image,description,heading}=data;
     const param=useParams();
+    const baseUrl=process.env.REACT_APP_API_URL;
 
     useEffect(()=>{
         getData()
@@ -27,7 +17,7 @@ import Loading from '../PageComponent/Loading';
     
       const getData=()=>{
         showLoading()
-        fetch(`http://localhost:8080/blog?_id=${param.id}`)
+        fetch(`${baseUrl}/blog?_id=${param.id}`)
           .then((res)=>res.json())
           .then((res)=>{
             hideLoading()
@@ -46,26 +36,31 @@ import Loading from '../PageComponent/Loading';
     return (
       <Container maxW={'7xl'} paddingTop={'80px'} minHeight={'650px'}>
 
-       <Box mt={'4%'} >
+      {
+        heading &&  <Box mt={'4%'} >
         <Text fontSize="2xl" as={'b'}>{heading}</Text>
        </Box>
+      }
 
         <SimpleGrid
           columns={{ base: 1, lg: 2 }}
           mt={{ base: 0, md:"-3%", lg: '-3%' }}
           spacing={{ base: 8, md: 10 }}
           py={{ base: 18, md: 24 }}>
-             <Flex>
-                <Image
-                rounded={'md'}
-                alt={'product image'}
-                src={image}
-                fit={'cover'}
-                align={'center'}
-                w={'100%'}
-                maxH={'500px'}
-                />
-          </Flex>
+            {
+              image && 
+                    <Flex>
+                      <Image
+                      rounded={'md'}
+                      alt={'product image'}
+                      src={image}
+                      fit={'cover'}
+                      align={'center'}
+                      w={'100%'}
+                      maxH={'500px'}
+                      />
+                  </Flex>
+            }
 
           <Stack spacing={{ base: 6, md: 10 }}>
             <Stack

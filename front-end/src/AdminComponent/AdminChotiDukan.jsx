@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Heading,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Grid,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-
+import {Box,ButtonGroup,Button,Heading,Flex,FormControl,FormLabel,Input,Textarea,Grid,GridItem,useToast} from '@chakra-ui/react'
 import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
 import NoDataFound from '../PageComponent/NoDataFound';
 import Loading from '../PageComponent/Loading';
-
-
 
 export default function AdminCotiDukan() {
   let initState={title:"",description:"",image:"",external:""}
@@ -32,6 +16,7 @@ export default function AdminCotiDukan() {
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
 
   const handleChange=(e)=>{
@@ -51,7 +36,7 @@ export default function AdminCotiDukan() {
 
   const getContent=(page)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/chotidukaan?page=${page}&&limit=12`)
+    fetch(`${baseUrl}/chotidukaan?page=${page}&&limit=12`)
       .then((res)=>res.json())
       .then((res)=>{
           setChotiDukanContent(res)
@@ -66,7 +51,7 @@ export default function AdminCotiDukan() {
 
   const addContent=(postData)=>{
     setIsLoading(true)
-    fetch("http://localhost:8080/chotidukaan/add", {
+    fetch(`${baseUrl}/chotidukaan/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,7 +73,7 @@ export default function AdminCotiDukan() {
 
   const updateContent=(postData,id)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/chotidukaan/update/${id}`, {
+    fetch(`${baseUrl}/chotidukaan/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

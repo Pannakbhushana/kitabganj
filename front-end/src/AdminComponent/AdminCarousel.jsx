@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Heading,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Grid,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-
+import {Box,ButtonGroup,Button,Heading,Flex,FormControl,FormLabel,Input,Textarea,Grid,GridItem,useToast} from '@chakra-ui/react'
 import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
 import Loading from '../PageComponent/Loading';
 import NoDataFound from '../PageComponent/NoDataFound';
-
-
 
 export default function AdminCarousel() {
   let initState={titleColor:"",textColor:"",title:"",text:"",image:""}
@@ -32,6 +16,7 @@ export default function AdminCarousel() {
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
 
   const handleChange=(e)=>{
@@ -51,7 +36,7 @@ export default function AdminCarousel() {
 
   const getCarouselContent=(page)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/carousel?page=${page}&&limit=9`)
+    fetch(`${baseUrl}/carousel?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>{
         setIsLoading(false)
@@ -66,7 +51,7 @@ export default function AdminCarousel() {
 
   const addCarouselContent=(postData)=>{
     setIsLoading(true);
-    fetch("http://localhost:8080/carousel/add", {
+    fetch(`${baseUrl}/carousel/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +74,7 @@ export default function AdminCarousel() {
 
   const updateCarouselContent=(postData,id)=>{
     setIsLoading(true);
-    fetch(`http://localhost:8080/carousel/update/${id}`, {
+    fetch(`${baseUrl}/carousel/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import {RenderContext} from "../ContextApi/RenderContext" 
 import Loading from '../PageComponent/Loading'
+import NoDataFound from "../PageComponent/NoDataFound";
 
 const PrevArrow = (props) => {
   const { onClick } = props;
@@ -54,6 +55,7 @@ const NextArrow = (props) => {
 function Blog() {
   const [blogData, setBlogData]=useState([]);
   const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   useEffect(()=>{
     getBlogData()
@@ -61,7 +63,7 @@ function Blog() {
 
   const getBlogData=()=>{
     showLoading()
-    fetch("http://localhost:8080/blog")
+    fetch(`${baseUrl}/blog`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()
@@ -123,7 +125,7 @@ function Blog() {
       </Box>
 
       <Box position="relative">
-        <Slider {...settings}>
+        {blogData.length ? <Slider {...settings}>
           {blogData.map((blog, i) => {
             return (
               <Link to={`/blogdetails/${blog._id}`} key={i}>
@@ -132,7 +134,8 @@ function Blog() {
               </Link>
             );
           })}
-        </Slider>
+        </Slider> : <NoDataFound/>}
+        
       </Box>
     </Box>
   );

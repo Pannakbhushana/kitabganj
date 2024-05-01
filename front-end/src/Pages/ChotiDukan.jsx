@@ -10,6 +10,7 @@ function ChotiDukan() {
   const [products, setProducts]=useState([]);
   const [page, setPage]=useState(1)
   const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   useEffect(()=>{
     getProductData(page)
@@ -17,7 +18,7 @@ function ChotiDukan() {
  
   const getProductData=(page)=>{
     showLoading()
-    fetch(`http://localhost:8080/chotidukaan?page=${page}&&limit=12`)
+    fetch(`${baseUrl}/chotidukaan?page=${page}&&limit=12`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()

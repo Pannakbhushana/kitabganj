@@ -2,13 +2,13 @@ import {Box,Center,useColorModeValue,Heading,Text,Stack,Image,Tooltip,useToast} 
 import { DeleteIcon } from '@chakra-ui/icons'
 import { useContext, useEffect, useState } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext";
-import Loading from '../PageComponent/Loading';
 
   export default function HomeCard({content,endPoint}) {
       const {title,description,image,tabDescription,external,titleColor,textColor,poem,heading,imageHeight}=content;
       const { forceRender,showLoading, hideLoading } = useContext(RenderContext);
       const [token, setToken]=useState("");
       const toast = useToast()
+      const baseUrl=process.env.REACT_APP_API_URL;
 
       useEffect(()=>{
         getToken()
@@ -25,7 +25,7 @@ import Loading from '../PageComponent/Loading';
 
       const deleteHomeFeatureContent=()=>{
         showLoading()
-          fetch(`http://localhost:8080/${endPoint}/delete/${content._id}`, {
+          fetch(`${baseUrl}/${endPoint}/delete/${content._id}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',

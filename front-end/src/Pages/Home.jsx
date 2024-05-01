@@ -11,6 +11,7 @@ function Home() {
   const [homeFeatureContent, setHomeFeatureContent]=useState([]);
   const [page, setPage]=useState(1)
   const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   useEffect(()=>{
     getCarouselData()
@@ -19,7 +20,7 @@ function Home() {
 
   const getCarouselData=()=>{
     showLoading()
-    fetch("http://localhost:8080/carousel")
+    fetch(`${baseUrl}/carousel`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()
@@ -33,7 +34,7 @@ function Home() {
 
   const getHomeFeatureContent=(page)=>{
     showLoading()
-    fetch(`http://localhost:8080/homefeature?page=${page}&&limit=5`)
+    fetch(`${baseUrl}/homefeature?page=${page}&&limit=5`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()
@@ -51,7 +52,7 @@ function Home() {
 
   return (
     <Box position={'relative'} width={'full'} overflow={'hidden'} paddingTop={'80px'}>
-      <CaptionCarousel cards={carouselData}/>
+      {carouselData.length && <CaptionCarousel cards={carouselData}/>}
         <br />
         <br />
         {

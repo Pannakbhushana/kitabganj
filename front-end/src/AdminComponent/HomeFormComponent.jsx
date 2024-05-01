@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Heading,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Grid,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-
+import {Box,ButtonGroup,Button,Heading,Flex,FormControl,FormLabel,Input,Textarea,Grid,GridItem,useToast} from '@chakra-ui/react'
 import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
 import Loading from '../PageComponent/Loading';
 import NoDataFound from '../PageComponent/NoDataFound';
-
-
 
 export default function HomeFormComponent() {
   let initState={tabDescription:"",title:"",description:"",image:"",external:""}
@@ -31,6 +15,7 @@ export default function HomeFormComponent() {
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
 
   const handleChange=(e)=>{
@@ -50,7 +35,7 @@ export default function HomeFormComponent() {
 
   const getHomeFeatureContent=(page)=>{
     showLoading()
-    fetch(`http://localhost:8080/homefeature?page=${page}&&limit=9`)
+    fetch(`${baseUrl}/homefeature?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()
@@ -66,7 +51,7 @@ export default function HomeFormComponent() {
 
   const addHomeFeatureContent=(postData)=>{
     showLoading()
-    fetch("http://localhost:8080/homefeature/add", {
+    fetch(`${baseUrl}/homefeature/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +74,7 @@ export default function HomeFormComponent() {
 
   const updateHomeFeatureContent=(postData,id)=>{
     showLoading()
-    fetch(`http://localhost:8080/homefeature/update/${id}`, {
+    fetch(`${baseUrl}/homefeature/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

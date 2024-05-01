@@ -1,27 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Heading,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Grid,
-  GridItem,
-  useToast
-} from '@chakra-ui/react'
-
+import {Box,ButtonGroup,Button,Heading,Flex,FormControl,FormLabel,Input,Textarea,Grid,GridItem,useToast} from '@chakra-ui/react'
 import HomeCard from './HomeCard'
 import SideBar from './SideBar';
 import { useContext } from 'react';
 import {RenderContext} from "../ContextApi/RenderContext"
 import Loading from '../PageComponent/Loading';
 import NoDataFound from '../PageComponent/NoDataFound';
-
-
 
 export default function AdminAboutPage() {
   let initState={title:"",description:"",image:""}
@@ -32,6 +16,7 @@ export default function AdminAboutPage() {
   const [token, setToken]=useState("");
   const [page, setPage]=useState(1)
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
 
   const handleChange=(e)=>{
@@ -51,7 +36,7 @@ export default function AdminAboutPage() {
 
   const getAboutMeContent=(page)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/aboutme?page=${page}&&limit=9`)
+    fetch(`${baseUrl}/aboutme?page=${page}&&limit=9`)
       .then((res)=>res.json())
       .then((res)=>{
         setAboutMeContent(res)
@@ -66,7 +51,7 @@ export default function AdminAboutPage() {
 
   const addAboutMeContent=(postData)=>{
     setIsLoading(true)
-    fetch("http://localhost:8080/aboutme/add", {
+    fetch(`${baseUrl}/aboutme/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +74,7 @@ export default function AdminAboutPage() {
 
   const updateAboutMeContent=(postData,id)=>{
     setIsLoading(true)
-    fetch(`http://localhost:8080/aboutme/update/${id}`, {
+    fetch(`${baseUrl}/aboutme/update/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

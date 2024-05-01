@@ -1,17 +1,4 @@
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Stack,
-  Button,
-  Heading,
-  Text,
-  useToast
-} from '@chakra-ui/react'
+import {Flex,Box,FormControl,FormLabel,Input,InputGroup,InputRightElement,Stack,Button,Heading,Text,useToast} from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
@@ -23,6 +10,7 @@ export default function Login() {
   const [isLoading, setIsLoading]=useState(false)
   const navigate=useNavigate();
   const toast = useToast()
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   const handleChange=(e)=>{
     setFormState({...formState, [e.target.name]:e.target.value})
@@ -40,7 +28,7 @@ export default function Login() {
 
   const authenticate=(data)=>{
     setIsLoading(true);
-      fetch("http://localhost:8080/admin/kitabganj/login",{
+      fetch(`${baseUrl}/admin/kitabganj/login`,{
         method:"POST",
         headers:{
             "Content-type":"application/json"

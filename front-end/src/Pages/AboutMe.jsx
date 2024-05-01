@@ -8,6 +8,7 @@ import Loading from '../PageComponent/Loading'
 export default function AboutMe() {
   const [aboutMeContent, setAboutMeContent]=useState([]);
   const { isLoading,showLoading, hideLoading } = useContext(RenderContext);
+  const baseUrl=process.env.REACT_APP_API_URL;
 
   useEffect(()=>{
     getAboutMeData()
@@ -15,7 +16,7 @@ export default function AboutMe() {
 
   const getAboutMeData=()=>{
     showLoading()
-    fetch("http://localhost:8080/aboutme")
+    fetch(`${baseUrl}/aboutme`)
       .then((res)=>res.json())
       .then((res)=>{
         hideLoading()
@@ -35,7 +36,7 @@ export default function AboutMe() {
       <Box display="flex" justifyContent="start" ml='2%' mt={'1%'}>
         <Text fontSize="2xl" as="b">परिचय : </Text>
       </Box>
-        {aboutMeContent && 
+        {aboutMeContent.length && 
           aboutMeContent.map((content,index)=>{
            return <Box key={index}>
                   {aboutMeContent && 
