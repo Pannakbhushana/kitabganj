@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box,Grid,GridItem ,Button} from '@chakra-ui/react'
+import { Box,Grid,GridItem ,Button,Text} from '@chakra-ui/react'
 import ProductCard from '../PageComponent/ProductCard'
 import { Link } from "react-router-dom";
 import {RenderContext} from "../ContextApi/RenderContext" 
@@ -34,13 +34,19 @@ function ChotiDukan() {
   }
 
   return (
-    <Box position={'relative'} minHeight={'600px'} width={'full'} overflow={'hidden'} paddingTop={'80px'}>
+    <>
+    <Box position={'relative'} minHeight={'600px'} width={'full'} overflow={'hidden'} paddingTop={'80px'} >
+
+      <Box display="flex" justifyContent="start" ml='2%' mt={'1%'}>
+        <Text fontSize="2xl" as="b">छोटी दुकान, बड़े सपने : </Text>
+      </Box>
+
       <Box w='80%' marginLeft='10%' marginTop='5%'>
         {
          products.length ? <Grid templateColumns={{base:'repeat(1, 1fr)',md:'repeat(2, 1fr)', lg:'repeat(3, 1fr)' }} gap={6}>
           {products.map((product,i)=>{
             return <GridItem key={i} >
-              <Link to={`/details/${i}`}>
+              <Link to={`/dukandetails/${product._id}`}>
                   <ProductCard content={product}/>
               </Link>
                   </GridItem>
@@ -59,6 +65,7 @@ function ChotiDukan() {
                 <br />
                 <br />
     </Box>
+    </>
   )
 }
 

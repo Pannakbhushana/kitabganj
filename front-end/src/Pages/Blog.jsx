@@ -126,7 +126,7 @@ function Blog() {
         <Slider {...settings}>
           {blogData.map((blog, i) => {
             return (
-              <Link to={`/details/${i}`} key={i}>
+              <Link to={`/blogdetails/${blog._id}`} key={i}>
                 {" "}
                 <BlogCard content={blog} />
               </Link>

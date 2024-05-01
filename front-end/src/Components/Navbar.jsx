@@ -44,7 +44,7 @@ export default function Navbar() {
           />
           <Link to='/'>
             <HStack spacing={2} alignItems={'center'} mt='5%'>
-                <Box><img src="kitabganjlogo.png" alt="" style={styles} /></Box>
+                <Box><img src="/kitabganjlogo.png" alt="" style={styles} /></Box>
                   <Text as='b'>KITABGANJ</Text>
             </HStack>
           </Link>

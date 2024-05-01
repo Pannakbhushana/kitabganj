@@ -44,7 +44,7 @@ function Poems() {
           poemContent.length ? <>{
             poemContent.map((content,index)=>{
              return <Box key={index}>
-                    <Link to={`/details/${index}`}>
+                    <Link to={`/poemdetails/${content._id}`}>
                       <Box className={styles.poemCard}>
                           {content && 
                               (content.title ||
