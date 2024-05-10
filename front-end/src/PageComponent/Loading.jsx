@@ -13,7 +13,9 @@ export default function Loading() {
          justifyContent={'center'}
          paddingTop={'80px'}
          >
-        <Text fontSize={'35px'} as={'b'} >Loading...</Text>
+        <Text fontSize={'35px'} as={'b'} >
+          <img style={{width:'50%', marginLeft:'25%'}} src="/loadinggif.gif" alt="Loading..." />
+        </Text>
     </Box>
   )
 }

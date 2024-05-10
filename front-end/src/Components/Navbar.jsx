@@ -1,18 +1,6 @@
-import {
-  Box,
-  Flex,
-  Avatar,
-  HStack,
-  Text,
-  IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  useDisclosure,
-  Stack,
-} from '@chakra-ui/react'
+import {Box,Flex,Avatar,HStack,Text,IconButton,Button,Menu,MenuButton,useDisclosure,Stack,} from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink,useNavigate} from 'react-router-dom';
 import Styles from './customStyle.module.css'
 
 let menuData=[
@@ -24,6 +12,7 @@ let menuData=[
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate=useNavigate();
 
   const styles={
     maxWidth:'60px',
@@ -60,9 +49,10 @@ export default function Navbar() {
           </HStack>
          
           <Flex alignItems={'center'}>
-            <Menu>
+            <Menu  style={{cursor:'pointer'}}>
               <MenuButton
                 as={Button}
+                onClick={()=>{navigate("/adminlogin")}}
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
